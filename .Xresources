@@ -1,0 +1,18 @@
+! ~/.Xresources file
+ 
+!---------------------|
+! urxvt configuration |
+!---------------------|
+
+! Disable the scrollbar
+URxvt.scrollBar: false
+
+! Set the font
+URxvt.font: xft:Noto Sans Mono:size=12
+URxvt.letterSpace: -1
+
+!-------------------|
+! xft configuration |
+!-------------------|
+!Xft.dpi: 331
+Xft.antialias: 1
