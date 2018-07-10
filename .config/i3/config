@@ -35,22 +35,7 @@ client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-co
 client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
 
 
-       #################
-    #### Functionality ####
-       #################
 
-# Mave application to an assigned workspace when opened:
-#  | Application	| Workspace |
-#  |--------------------+-----------|
-#  | Browser: Firefox   |    $ws2   |
-#  |			|	    |
-#  |			|	    |
-#  |			|	    |
-#  |			|	    |
-#  |--------------------+-----------|
-
-assign [class="Firefox"] $ws2
- 
        ################
     #### Key Bindings ####
        ################
@@ -121,6 +106,19 @@ bindsym $mod+Shift+r restart
 # Exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% # Increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% # Decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # Mute sound
+
+# Sreen brightness controls
+#bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+#bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
        ##############
     #### Workspaces ####
@@ -136,7 +134,7 @@ set $ws5 "5:5"
 set $ws6 "6:6"
 set $ws7 "7:7"
 set $ws8 "8:8"
-set $ws9 "9:9"
+set $ws9 "9:Email "
 set $ws10 "10:Music "
 
 # switch to workspace
@@ -223,3 +221,24 @@ bar {
 }
 
 
+       #################
+    #### Functionality ####
+       #################
+
+# (Re)start the wallpaper, using the nitrogen application
+exec nitrogen --restore
+
+# Mave application to an assigned workspace when opened:
+#  | Application	| Workspace |
+#  |--------------------+-----------|
+#  | Browser: Firefox   |   $ws2    |
+#  | Music: Spotify     |   $ws10   |
+#  |			|	    |
+#  |			|	    |
+#  |			|	    |
+#  |--------------------+-----------|
+
+
+assign [class="Firefox"] $ws2
+assign [class="Sylpheed"] $ws9
+for_window [class="Spotify"] move to workspace $ws10
