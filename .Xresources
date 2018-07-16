@@ -9,8 +9,8 @@
 URxvt.scrollBar: false
 
 ! Set the font
-#URxvt.font: xft:Noto Sans Mono:size=12
-URxvt.font: xft:SourceCodePro:size=13
+!Xft.font: Noto Sans 12
+URxvt.font: xft:SourceCodePro:size=14
 URxvt.letterSpace: -1
 
 ! Enable Transparency
@@ -18,64 +18,43 @@ URxvt.letterSpace: -1
 ! [x] The opacity level x in percentages
 ! and background color after
 URxvt.depth: 32
-URxvt.background: [95]#404552
 
-! colors
-*.cursorColor:  #b3bdcb
-!*.background: #404552
-*.foreground: #b3bdcb
-! Black + DarkGrey
-*.color0:  #404552
-*.color8:  #2a303b
-! DarkRed + Red
-*.color1:  #cc575d
-*.color9:  #a3464a
-! DarkGreen + Green
-*.color2:  #2679db
-*.color10: #75a9e8
-! DarkYellow + Yellow
-*.color3:  #b3bdcb
-*.color11: #CAD1DB
-! DarkBlue + Blue
-*.color4:  #5294e2
-*.color12: #97bfee
-! DarkMagenta + Magenta
-*.color5:  #404552
-*.color13: #686d79
-! DarkCyan + Cyan
-*.color6:  #b3bdcb
-*.color14: #383c4a
-! LightGrey + White
-*.color7:  #E1E5EA
-*.color15: #ffffff
-! for 256 color stuff
-*.color24:  #076678
-*.color66:  #427b58
-*.color88:  #9d0006
-*.color96:  #8f3f71
-*.color100: #79740e
-*.color108: #8ec07c
-*.color109: #83a598
-*.color130: #af3a03
-*.color136: #b57614
-*.color142: #b8bb26
-*.color167: #fb4934
-*.color175: #d3869b
-*.color208: #fe8019
-*.color214: #fabd2f
-*.color223: #ebdbb2
-*.color228: #f4e8ba
-*.color229: #fdf4c1
-*.color230: #ffffc8
-*.color234: #1d2021
-*.color235: #404552
-*.color236: #32302f
-*.color237: #3c3836
-*.color239: #504945
-*.color241: #665c54
-*.color243: #7c6f64
-*.color244: #928374
-*.color245: #928374
-*.color246: #a89984
-*.color248: #bdae93
-*.color250: #d5c4a1
+! Arc Dark color scheme
+! by fsckoff (http://wr3tch.com)
+! based on the arc dark wm/de themes
+
+URxvt.background: [70]#2f343f
+URxvt.foreground: #d7d7d7
+URxvt.cursorColor: #c7c7c7
+URxvt.highlightTextColor: #383c4a
+URxvt.highlightColor: #c1ddff
+! black
+URxvt.color0:       #383c4a
+URxvt.color8:       #383c4a
+! red
+URxvt.color1:       #e28d9d
+URxvt.color9:       #e28d9d
+! green
+URxvt.color2:       #bfd888
+URxvt.color10:      #bfd888
+! yellow
+URxvt.color3:       #df936c
+URxvt.color11:      #df936c
+! blue
+URxvt.color4:       #5294e2
+URxvt.color12:      #5294e2
+! magenta
+URxvt.color5:       #f74771
+URxvt.color13:      #f74771
+! cyan
+URxvt.color6:       #7c818c
+URxvt.color14:      #7c818c
+! white
+URxvt.color7:       #d7d7d7
+URxvt.color15:      #d7d7d7
+
+!-----------------------!
+! General configuration !
+!-----------------------!
+
+Xcursor.theme: whiteglass
