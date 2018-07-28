@@ -1,5 +1,7 @@
-/* -*- mode: css; -*- */
-/* vim:ft=css */
+/* 
+ * -*- mode: css; -*-
+ * vim: ft=css
+ */
 
 configuration {
     font: "Noto Sans Display 24";

@@ -1,9 +1,12 @@
+#!/bin/bash
 ## Filename: 	.bash_profile
 ## Author: 	Sten Sipma 
 
 # If the .bashrc file exists and is a file (-f) 
 # in $HOME directory execute it
 [[ -f ~/.bashrc ]] && . ~/.bashrc
+
+PATH+=$PATH:~/bin
 
 ## Start the X session:
 # (! $DISPLAY)      : If there is no current display (?)
