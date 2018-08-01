@@ -8,10 +8,7 @@
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
-# Prompt: 
-# [username@hostname directory]$ 
-PS1='[\u@\h \W]\$ '
-
+# Prompt
 prompt_git() {
 	unset PROMPT_GIT
 	if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]]; then
@@ -27,3 +24,14 @@ export PS1='\u at \h in \W\n $ '
 
 # PS2 Is the prompt on an additional line
 export PS2=' | '
+
+# See `make-change-dir` for explanation
+alias mkcd=". make-change-dir"
+
+
+# Usefull back command alias
+alias cd.='cd ../'
+alias cd..='cd ../../'
+alias cd...='cd ../../../'
+alias cd....='cd ../../../../'
+alias cd.....='cd ../../../../../'

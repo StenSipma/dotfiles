@@ -1,33 +1,39 @@
 # i3 config file (v4)
+## Filename: config
+## Author:   Sten Sipma
 
- 
        #################
     #### Functionality ####
        #################
 
-# Mave application to an assigned workspace when opened:
+# Move application to an assigned workspace when opened
+# and go to the same workspace
 #
-#  | Application	| Workspace |
-#  |--------------------+-----------|
-#  | Browser: Firefox   |   $ws2    |
-#  | Editor: Emacs      |   $ws4    |
-#  | Email: Sylpheed    |   $ws9    |
-#  | Music: Spotify     |   $ws10   |
-#  |                    |           |
-#  |                    |           |
-#  |                    |           |
-#  |                    |           |
-#  |--------------------+-----------|
+#  | Application	| Workspace     |
+#  |--------------------+---------------|
+#  | Browser: Firefox   |   $ws-browser |
+#  | Editor:  Emacs     |   $ws-editor  |
+#  | Email:   Sylpheed  |   $ws-mail    |
+#  | Music:   Spotify   |   $ws-music   |
+#  |                    |               |
+#  |                    |               |
+#  |                    |               |
+#  |                    |               |
+#  |--------------------+---------------|
 
-assign [class="Firefox"]    $ws2
-assign [class="Emacs"]      $ws4
-assign [class="Sylpheed"]   $ws9
-for_window [class="Spotify"] move to workspace $ws10
+for_window [class="Firefox"]   move to workspace $ws-browser, workspace $ws-browser
+for_window [class="Emacs"]     move to workspace $ws-editor,  workspace $ws-editor
+for_window [class="Sylpheed"]  move to workspace $ws-mail,    workspace $ws-mail
+for_window [class="Spotify"]   move to workspace $ws-music,   workspace $ws-music
 
 # (Re)start the wallpaper, using the nitrogen application
 exec --no-startup-id nitrogen --restore
+#exec --no-startup-id nitrogen --set-zoom-fill --random "~/.wallpapers/Hubble"
 
 # Start compton for real transparency (used in rofi and the terminal)
+# Options:
+#  -b: deamonize process (run it in the background)
+#  -f: fade windows in/out. e.g. when switching workspaces or starting rofi
 exec --no-startup-id compton -b -f
 
        ######################
@@ -78,6 +84,7 @@ gaps inner 20
 # Smart gaps, is similar to the smart border setting:
 #   no gaps when there is only one screen.
 smart_gaps on
+
 
        ################
     #### Key Bindings ####
@@ -178,46 +185,58 @@ exec --no-startup-id betterlockscreen -u ~/.wallpapers/Hubble
 # try adding delay of 5 seconds if thats the case
 #exec --no-startup-id betterlockscreen -w
 
+
        ##############
     #### Workspaces ####
        ##############
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1  "1:Main"
-set $ws2  "2:Browser "
-set $ws3  "3:Terminal "
-set $ws4  "4:Emacs"
+# Icons are from FontAwesome
+set $ws-main  "1:Main"
+set $ws-browser  "2:Browser "  
+# icon: firefox  (f269)
+
+set $ws3  "3:Terminal " 
+# icon: terminal (f120)
+
+set $ws-editor  "4:Editor "    
+# icon: edit     (f044)
+
 set $ws5  "5:5"
 set $ws6  "6:6"
 set $ws7  "7:7"
 set $ws8  "8:8"
-set $ws9  "9:Email "
-set $ws10 "10:Music "
+set $ws-mail  "9:Email "    
+# icon: envelope (f030)
+
+set $ws-music "10:Music "   
+# icon: spotify  (f1bc)
+
 
 # Switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
+bindsym $mod+1 workspace $ws-main
+bindsym $mod+2 workspace $ws-browser
 bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
+bindsym $mod+4 workspace $ws-editor
 bindsym $mod+5 workspace $ws5
 bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
+bindsym $mod+9 workspace $ws-mail
+bindsym $mod+0 workspace $ws-music
 
 # Move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+1 move container to workspace $ws-main
+bindsym $mod+Shift+2 move container to workspace $ws-browser
 bindsym $mod+Shift+3 move container to workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+4 move container to workspace $ws-editor
 bindsym $mod+Shift+5 move container to workspace $ws5
 bindsym $mod+Shift+6 move container to workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10
+bindsym $mod+Shift+9 move container to workspace $ws-mail
+bindsym $mod+Shift+0 move container to workspace $ws-music
 
 
        ############
