@@ -1,4 +1,10 @@
-# Function for controlling the brightness manually
+#!/bin/bash
+# Filename: brightness
+# Author: Sten Sipma
+# Description:
+#  | Small command for directly adjusting the brightness file.
+#  | Serves as a replacement for when xbacklight does not work.
+
 ACTION=$1
 SDF_BRIGHTNESS_DIR=/sys/class/backlight/intel_backlight
 CUR_BRIGHTNESS=$(cat ${SDF_BRIGHTNESS_DIR}/brightness)
@@ -25,8 +31,8 @@ case $ACTION in
 		printf "Usage: brightness [ACTION]\n"
 		printf "  Actions:\n"
 		printf "  show - Displays the current brightness and the max brightness in the form: cur/max.\n"
-		printf "  up   - Increases the brightness by %d, unless the brightness exceeds the max brightness.\n" $CHANGE_AMOUNT
-		printf "  down - Decrease the brightness by %d, unless the brightness will be below 0\n" $CHANGE_AMOUNT
+		printf "  up   - Increases the brightness by %d. Stops at max brightness.\n" $CHANGE_AMOUNT
+		printf "  down - Decrease the brightness by %d. Always stops at 0.\n" $CHANGE_AMOUNT
 		printf "  \n"
 		;;
 esac
