@@ -1,0 +1,32 @@
+# Function for controlling the brightness manually
+ACTION=$1
+SDF_BRIGHTNESS_DIR=/sys/class/backlight/intel_backlight
+CUR_BRIGHTNESS=$(cat ${SDF_BRIGHTNESS_DIR}/brightness)
+MAX_BRIGHTNESS=$(cat ${SDF_BRIGHTNESS_DIR}/max_brightness)
+CHANGE_AMOUNT=100
+case $ACTION in
+	show)
+		printf "%d/%d\n" ${CUR_BRIGHTNESS} ${MAX_BRIGHTNESS}
+		;;
+	up)
+		NEW_BRIGHTNESS=$((${CUR_BRIGHTNESS} + ${CHANGE_AMOUNT}))
+		if [[ $NEW_BRIGHTNESS -le $MAX_BRIGHTNESS ]]; then
+			printf "%d" $NEW_BRIGHTNESS > $SDF_BRIGHTNESS_DIR/brightness
+		fi
+		;;
+	down)
+		NEW_BRIGHTNESS=$((${CUR_BRIGHTNESS} - ${CHANGE_AMOUNT}))
+		if [[ $NEW_BRIGHTNESS -gt 0 ]]; then
+			printf "%d" $NEW_BRIGHTNESS > $SDF_BRIGHTNESS_DIR/brightness
+		fi
+		;;
+	*)
+		printf "'%s' is not a valid action\n" $ACTION
+		printf "Usage: brightness [ACTION]\n"
+		printf "  Actions:\n"
+		printf "  show - Displays the current brightness and the max brightness in the form: cur/max.\n"
+		printf "  up   - Increases the brightness by %d, unless the brightness exceeds the max brightness.\n" $CHANGE_AMOUNT
+		printf "  down - Decrease the brightness by %d, unless the brightness will be below 0\n" $CHANGE_AMOUNT
+		printf "  \n"
+		;;
+esac
