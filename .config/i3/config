@@ -23,7 +23,7 @@
 
 for_window [class="Firefox"]   move to workspace $ws-browser, workspace $ws-browser
 for_window [class="Emacs"]     move to workspace $ws-editor,  workspace $ws-editor
-for_window [class="Sylpheed"]  move to workspace $ws-mail,    workspace $ws-mail
+for_window [class="Thunderbird"]  move to workspace $ws-mail,    workspace $ws-mail
 for_window [class="Spotify"]   move to workspace $ws-music,   workspace $ws-music
 
 # (Re)start the wallpaper, using the nitrogen application
@@ -40,8 +40,9 @@ exec --no-startup-id compton -b -f
     #### General Appearance ####
        ######################
 
-# Font used globally
-font pango:Noto Sans 14
+# Font used globally, this order is important, otherwise it will use the 
+# FontAwesome for text as well.
+font pango:FontAwesome, Noto Sans 14
 
 # Colors
 # Exact colours from: https://github.com/bookercodes/dotfiles/blob/ubuntu/.i3/config
@@ -160,16 +161,16 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% # Increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% # Decrease sound volume
 bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute 0 toggle # Mute sound
-bindsym Print                exec screenshot
+#bindsym Print                exec screenshot
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec --no-startup-id brightness up # increase screen brightness
 bindsym XF86MonBrightnessDown exec --no-startup-id brightness down # decrease screen brightness
 
 # Media player controls
-bindsym XF86AudioPlay exec playerctl --no-startup-id play-pause
-bindsym XF86AudioNext exec playerctl --no-startup-id next
-bindsym XF86AudioPrev exec playerctl --no-startup-id previous
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
 # custom keybinding to lockscreen, use --lock dim or --lock blur below for different backgrounds
 bindsym $mod+shift+x exec betterlockscreen --lock dim
@@ -204,7 +205,7 @@ set $ws-editor  "4:Editor "
 # icon: edit     (f044)
 
 set $ws5  "5:5"
-set $ws6  "6:6"
+set $ws6  "6:Twitch "
 set $ws7  "7:7"
 set $ws8  "8:8"
 set $ws-mail  "9:Email "    

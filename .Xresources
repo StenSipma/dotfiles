@@ -23,7 +23,6 @@ URxvt.depth: 32
 ! Arc Dark color scheme
 ! by fsckoff (http://wr3tch.com)
 ! based on the arc dark wm/de themes
-
 URxvt.background: [70]#2f343f
 URxvt.foreground: #d7d7d7
 URxvt.cursorColor: #c7c7c7
