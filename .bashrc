@@ -8,6 +8,13 @@
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
+# Tab completion
+source /usr/share/bash-completion/bash_completion
+
+complete -c man which
+complete -cf sudo
+
+
 # Prompt
 prompt_git() {
 	unset PROMPT_GIT
@@ -41,14 +48,6 @@ alias alert='i3-nagbar -t warning -m "Program finished"'
 
 STUDY_DIR=$HOME/Documents/Study
 
-alias infsec='cd $STUDY_DIR/Information_Security'
-alias intsys='cd $STUDY_DIR/Intelligent_Systems'
 alias exam='cd $STUDY_DIR/Exam_Scheduling'
-
-
-discr_save() {
-	rootdir=$HOME/Documents/Study/Coursera/Discrete-Optimization/tsp
-	location=$rootdir/save_files
-	tail -n 2 ./$1 > $location/$1
-	return
-}
+alias cg='cd $STUDY_DIR/Computer_Graphics'
+alias op='cd $STUDY_DIR/Operating_Systems'

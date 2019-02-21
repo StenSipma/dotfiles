@@ -28,7 +28,7 @@ for_window [class="Spotify"]   move to workspace $ws-music,   workspace $ws-musi
 
 # (Re)start the wallpaper, using the nitrogen application
 exec --no-startup-id nitrogen --restore
-#exec --no-startup-id nitrogen --set-zoom-fill --random "~/.wallpapers/Hubble"
+#exec --no-startup-id nitrogen --set-zoom-fill --random "~/.wallpapers/PinkFloyd"
 
 # Start compton for real transparency (used in rofi and the terminal)
 # Options:
@@ -176,7 +176,7 @@ bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 bindsym $mod+shift+x exec betterlockscreen --lock dim
 
 # Set last used image as desktop background
-exec --no-startup-id betterlockscreen -u ~/.wallpapers/Hubble
+exec --no-startup-id betterlockscreen -u ~/.wallpapers/APOD/
 
 # where Pictures/Wallpapers is the directory you would want to get random wallpapers from
 #exec --no-startup-id betterlockscreen -u ~/Pictures/Wallpapers
@@ -271,6 +271,30 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+ 
+
+       ##################################
+    #### Power Management & Lock screen ####
+       ##################################
+
+set $Locker betterlockscreen -l dimblur && sleep 1
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    #bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+p mode "$mode_system"
+
 
 
        ##############

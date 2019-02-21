@@ -56,5 +56,3 @@ URxvt.color15:      #d7d7d7
 !-----------------------!
 ! General configuration !
 !-----------------------!
-
-Xcursor.theme: whiteglass

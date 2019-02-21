@@ -6,7 +6,11 @@
 # in $HOME directory execute it
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
+# Add the local bin folder to path
 PATH+=$PATH:~/bin
+
+# Set the QT theme
+export QT_QPA_PLATFORMTHEME=qt5ct
 
 ## Start the X session:
 # (! $DISPLAY)      : If there is no current display (?)
