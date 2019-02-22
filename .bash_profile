@@ -9,6 +9,15 @@
 # Add the local bin folder to path
 PATH+=$PATH:~/bin
 
+# Set some default applications
+export BROWSER="firefox"
+export TERMINAL="urxtv"
+export MAIL_READER="thunderbird"
+export IDE="emacs"
+export EDITOR="vim"
+export PAGER="less"
+export IMAGE_VIEWER="sxiv"
+
 # Set the QT theme
 export QT_QPA_PLATFORMTHEME=qt5ct
 
