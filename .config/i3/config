@@ -48,28 +48,60 @@ font pango:FontAwesome, Noto Sans 14
 # Exact colours from: https://github.com/bookercodes/dotfiles/blob/ubuntu/.i3/config
 # Theme is inspired by the Arc-Darker theme.
 
-set $bg-color 	         #2f343f
-set $inactive-bg-color   #2f343f
-set $text-color          #f3f4f5
-set $inactive-text-color #676E7D
-set $urgent-bg-color     #E53935
+# Background
+set $bg-color 	           #2f343f
+set $inactive-bg-color     #2f343f
+set $urgent-bg-color       #E53935
+
+# Text
+set $text-color            #f3f4f5
+set $inactive-text-color   #676E7D
+
+# Border (light gray)
+set $border-color          #DEDEDE
+set $inactive-border-color #B5B5B5
+set $urgent-border-color   #DEDEDE
+
+# Indicator
+set $indicator-color           #DEDEDE
+set $inactive-indicator-color  #B5B5B5
+set $urgent-indicator-color    #DEDEDE
 
 # Window colors
+# -Border      is for the border when titlebar is enabled?
+# -Background  is for the background, but basically translates to the border
+# -Text        is for the text in the titlebar
+# -Indicator   is the indicator for where the next window is going to spawn
+# old:
 #                       Border              Background         Text                 Indicator
-client.focused          $bg-color           $bg-color          $text-color          #00ff00
-client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
-client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
-client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+#client.focused          $bg-color           $bg-color          $text-color          #00ff00
+#client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
+#client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
+#client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+# new:
+#                       Border              Background             Text                 Indicator
+client.focused          $bg-color           $border-color          $text-color          $indicator-color
+client.unfocused        $inactive-bg-color  $inactive-border-color $inactive-text-color $inactive-indicator-color
+client.focused_inactive $inactive-bg-color  $inactive-border-color $inactive-text-color $inactive-indicator-color
+client.urgent           $bg-color	    $urgent-border-color   $text-color          $urgent-indicator-color
+
+
 
 # Set the border of the windows:
+# Also sets the indicator size
 # I prefer 1 pixel to have some indicator between windows
 # 'pixel' also removes the titlebar, which I do not find necessary
 # use setting 'normal' to enable the titlebar
 default_border pixel 0
 
+
+
+
 # This removes the border when only one window is active.
 # If multiple are active, the border reappears.
 # To remove the border completely change 'smart' to 'both'
+# Options: "smart" (for each window), "smart_no_gaps" (for
+# windows where border = 0), "both" (disables gaps)
 hide_edge_borders smart
 
 
@@ -80,12 +112,17 @@ hide_edge_borders smart
 #    the inner gap size. Therefore both set to 20, means a gap size of
 #    40 pixels at the border, but 20 pixels between the containers.
 gaps inner 20
+gaps outer 0
 #gaps outer 20
 
 # Smart gaps, is similar to the smart border setting:
 #   no gaps when there is only one screen.
 smart_gaps on
+#smart_gaps inverse_outer
 
+# Set a small border for every terminal (URxvt in specific) window
+for_window [class="URxvt"] border pixel 2
+#for_window [class="URxvt"] gaps outer 20
 
        ################
     #### Key Bindings ####
@@ -201,7 +238,7 @@ set $ws-browser  "2:Browser "
 set $ws3  "3:Terminal " 
 # icon: terminal (f120)
 
-set $ws-editor  "4:Editor "    
+set $ws-editor  "4:IDE "
 # icon: edit     (f044)
 
 set $ws5  "5:5"

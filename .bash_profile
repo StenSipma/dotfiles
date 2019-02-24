@@ -4,7 +4,7 @@
 
 # If the .bashrc file exists and is a file (-f) 
 # in $HOME directory execute it
-[[ -f ~/.bashrc ]] && . ~/.bashrc
+#[[ -f ~/.bashrc ]] && . ~/.bashrc
 
 # Add the local bin folder to path
 PATH+=$PATH:~/bin
@@ -17,6 +17,8 @@ export IDE="emacs"
 export EDITOR="vim"
 export PAGER="less"
 export IMAGE_VIEWER="sxiv"
+
+export LESS="--raw-control-chars"
 
 # Set the QT theme
 export QT_QPA_PLATFORMTHEME=qt5ct

@@ -1,0 +1,10 @@
+## File:   global-exclude
+## Author: Sten Sipma
+## Description:
+#    This file specifies user specific files which should be ignored system
+#    wide. It basically is a global .gitconfig. This is best used for 
+#    editor specific backup files, (like emacs' *~) etc.
+#    It is pointed to by the core.excludesFile in .gitconfig
+
+# Emacs backup files
+*~
