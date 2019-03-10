@@ -72,13 +72,6 @@ set $urgent-indicator-color    #DEDEDE
 # -Background  is for the background, but basically translates to the border
 # -Text        is for the text in the titlebar
 # -Indicator   is the indicator for where the next window is going to spawn
-# old:
-#                       Border              Background         Text                 Indicator
-#client.focused          $bg-color           $bg-color          $text-color          #00ff00
-#client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
-#client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
-#client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
-# new:
 #                       Border              Background             Text                 Indicator
 client.focused          $bg-color           $border-color          $text-color          $indicator-color
 client.unfocused        $inactive-bg-color  $inactive-border-color $inactive-text-color $inactive-indicator-color
@@ -94,9 +87,6 @@ client.urgent           $bg-color	    $urgent-border-color   $text-color        
 # use setting 'normal' to enable the titlebar
 default_border pixel 0
 
-
-
-
 # This removes the border when only one window is active.
 # If multiple are active, the border reappears.
 # To remove the border completely change 'smart' to 'both'
@@ -104,9 +94,7 @@ default_border pixel 0
 # windows where border = 0), "both" (disables gaps)
 hide_edge_borders smart
 
-
-# Gaps
-
+## Gaps
 # Inner gap size is the gap size between the containers in pixels
 # Outer gap size is the gap size at the window border. This stacks with
 #    the inner gap size. Therefore both set to 20, means a gap size of
@@ -161,7 +149,8 @@ bindsym $mod+q kill
 
 # Application menus
 #  d: start application
-bindsym $mod+d exec rofi -show run -theme Arc-Dark-Custom
+#bindsym $mod+d exec rofi -show run -theme Arc-Dark-Custom
+bindsym $mod+d exec rofi -show drun -modi drun#run -show-icons -theme Arc-Dark-Custom
 #  z: switch windows
 bindsym $mod+z exec rofi -show window -theme Arc-Dark
 
@@ -209,19 +198,14 @@ bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
+# Printscreen key
+bindsym Print exec --no-startup-id flameshot gui
+
 # custom keybinding to lockscreen, use --lock dim or --lock blur below for different backgrounds
 bindsym $mod+shift+x exec betterlockscreen --lock dim
 
 # Set last used image as desktop background
 exec --no-startup-id betterlockscreen -u ~/.wallpapers/APOD/
-
-# where Pictures/Wallpapers is the directory you would want to get random wallpapers from
-#exec --no-startup-id betterlockscreen -u ~/Pictures/Wallpapers
-
-# add this only if you want to use same random image as desktop background too
-# it might not work as it takes few seconds for images to be cached,
-# try adding delay of 5 seconds if thats the case
-#exec --no-startup-id betterlockscreen -w
 
 
        ##############
@@ -285,13 +269,13 @@ bindsym $mod+Shift+0 move container to workspace $ws-music
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 	#
-	#                       /\ 
+	#                       ^
 	#                    shrink H
 	#
 	#        < shrink W             grow W >
 	#
 	#                     grow H 
-	#                       \/
+	#                       v
 	#
 	# W: Width
 	# H: Height
@@ -344,11 +328,12 @@ bar {
 	# -c specifies the location of the i3blocks config file
         status_command i3blocks -c ~/.config/i3/i3blocks.conf
 	
-	# Strips the numbers from the workspace names, such that its just the name
-	# but the order will still be correct (1-10)
+	# Strips the numbers from the workspace names, such that it just displays the name
+	# without the number, while the order will still be correct (1-10)
 	strip_workspace_numbers yes
 
-	# Colours for the bar. From: https://github.com/bookercodes/dotfiles/blob/ubuntu/.i3/config
+	# Colours for the bar. 
+	#From: https://github.com/bookercodes/dotfiles/blob/ubuntu/.i3/config
 	colors {
 		background $bg-color
 	    	separator #757575
