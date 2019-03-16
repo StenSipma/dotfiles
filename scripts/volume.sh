@@ -1,8 +1,10 @@
 #!/bin/bash
 
-if [[ $BLOCK_BUTTON == "1" ]]; then
-	volume set-sink
-fi
+case $BLOCK_BUTTON in
+	1) volume set-sink;;
+	4) volume up;;
+	5) volume down;;
+esac
 
 full_out=""
 if [[ "$(volume show-muted)" == "no" ]]; then

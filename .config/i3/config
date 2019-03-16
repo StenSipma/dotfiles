@@ -326,6 +326,7 @@ bindsym $mod+p mode "$mode_system"
 
 # Start i3bar to display a workspace bar
 bar {
+	position top
 	# Use i3blocks instead of i3status
 	# -c specifies the location of the i3blocks config file
         status_command i3blocks -c ~/.config/i3/i3blocks.conf

@@ -1,4 +1,8 @@
 #!/bin/bash
+case $BLOCK_BUTTON in
+	4) brightness up;;
+	5) brightness down ;;
+esac
 
 full_out=""
 full_out+=$(brightness show | awk -F'/' '{ printf("%.0f", ($1/$2)*100) };')
