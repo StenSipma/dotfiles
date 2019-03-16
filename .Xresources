@@ -11,7 +11,7 @@ URxvt.scrollBar: false
 ! Set the font
 !Xft.font: Noto Sans 12
 !Xft.font: Noto Sans:size=12
-URxvt.font: xft:SourceCodePro:size=16
+URxvt.font: xft:SourceCodePro:size=18
 URxvt.letterSpace: -1
 
 ! Enable Transparency

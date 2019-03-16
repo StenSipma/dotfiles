@@ -14,6 +14,9 @@ set autoindent
 " Enable syntax highlighting
 syntax on
 
+" Uses the colours which are better for a dark background
+set background=dark
+
 " Set highlight searches (C-L to temporaraly turn off)
 set hlsearch
 nnoremap <C-L> :nohl<CR><C-L>

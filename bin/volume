@@ -1,0 +1,46 @@
+#!/bin/bash
+# Script to alter the volume of a sink
+
+CONF_DIR="$HOME/.config/volume"
+sink=$(cat $CONF_DIR/selected_sink)
+
+case $1 in
+	show)
+		 level=$(pactl list sinks | grep --color=none -e 'Volume: front-left:' | awk -v sink_nr=$sink 'FNR==sink_nr + 1{print $5};' | sed 's/%//')
+		printf "%d" "$level"
+		;;
+	show-muted)
+		output=$(pactl list sinks | grep --color=none -e 'Mute:' | awk -v sink_nr=$sink 'FNR==sink_nr + 1{print $2};')
+		printf "%s" "$output"
+		;;
+	show-sink)
+		printf "%d" "$sink"
+		;;
+	set-sink)
+		sinknumber="$(pactl list sinks short | awk '{print $1 " : " $2};' | sed 's/bluez_sink.*$/Bluetooth/; s/alsa_output.*$/Laptop/;' | rofi -dmenu -only-match -theme Arc-Dark-Custom| awk '{print $1};')"
+		printf "%d" "$sinknumber" > $CONF_DIR/selected_sink
+		pkill -RTMIN+2 i3blocks
+		;;
+	up)
+		pactl set-sink-volume $sink +5%
+		pkill -RTMIN+2 i3blocks
+		;;
+	down)
+		pactl set-sink-volume $sink -5%
+		pkill -RTMIN+2 i3blocks
+		;;
+	mute)
+		pactl set-sink-mute $sink toggle
+		pkill -RTMIN+2 i3blocks
+		;;
+	*)
+		printf "\n'%s' is not a valid action\n\n" "$1"
+		printf "Usage: volume [ACTION]\n"
+		printf "  Actions:\n"
+		printf "  show     - Displays current sink & volume level\n"
+		printf "  up       - Increases volume of selected sink by 5 percent\n"
+		printf "  down     - Decreases volume of selected sink by 5 percent\n"
+		printf "  mute     - Toggles mute on the selected sink\n"
+		printf "  set-sink - Select the sink to be controlled, using Rofi\n"
+		printf "\n"
+esac

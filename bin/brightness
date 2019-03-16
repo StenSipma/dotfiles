@@ -10,6 +10,10 @@ SDF_BRIGHTNESS_DIR=/sys/class/backlight/intel_backlight
 CUR_BRIGHTNESS=$(cat ${SDF_BRIGHTNESS_DIR}/brightness)
 MAX_BRIGHTNESS=$(cat ${SDF_BRIGHTNESS_DIR}/max_brightness)
 CHANGE_AMOUNT=100
+
+# Send signal to the status bar
+pkill -RTMIN+1 i3blocks
+
 case $ACTION in
 	show)
 		printf "%d/%d\n" ${CUR_BRIGHTNESS} ${MAX_BRIGHTNESS}
