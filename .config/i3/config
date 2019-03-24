@@ -8,23 +8,30 @@
 
 # Move application to an assigned workspace when opened
 # and go to the same workspace
+# Use `xprop` or `xwininfo` for parameters
 #
-#  | Application	| Workspace     |
-#  |--------------------+---------------|
-#  | Browser: Firefox   |   $ws-browser |
-#  | Editor:  Emacs     |   $ws-editor  |
-#  | Email:   Sylpheed  |   $ws-mail    |
-#  | Music:   Spotify   |   $ws-music   |
-#  |                    |               |
-#  |                    |               |
-#  |                    |               |
-#  |                    |               |
-#  |--------------------+---------------|
+#  | Application	   | Workspace   |
+#  |-----------------------+-------------|
+#  | Browser: Firefox      | $ws-browser |
+#  | Editor : Emacs        | $ws-editor  |
+#  |          Godot        | $ws-editor  |
+#  | Tab: Firefox/Twitch   | $ws-player  |
+#  | Email  : Thunderbird  | $ws-mail    |
+#  | Music  : Spotify      | $ws-music   |
+#  |                       |             |
+#  |-----------------------+-------------|
 
-for_window [class="Firefox"]   move to workspace $ws-browser, workspace $ws-browser
-for_window [class="Emacs"]     move to workspace $ws-editor,  workspace $ws-editor
-for_window [class="Thunderbird"]  move to workspace $ws-mail,    workspace $ws-mail
-for_window [class="Spotify"]   move to workspace $ws-music,   workspace $ws-music
+for_window [class="Firefox" window_role="browser"] move to workspace $ws-browser, workspace $ws-browser
+for_window [class="Emacs"]                         move to workspace $ws-editor,  workspace $ws-editor
+for_window [class="Godot" instance="Godot_Editor"] move to workspace $ws-editor,  workspace $ws-editor
+for_window [class="Firefox" title=".*Twitch.*"]    move to workspace $ws-player,  workspace $ws-player
+for_window [class="Thunderbird"]                   move to workspace $ws-mail,    workspace $ws-mail
+for_window [class="Spotify"]                       move to workspace $ws-music,   workspace $ws-music
+
+# Set automatic floating for some windows
+for_window [instance="Godot_Engine"] floating enable
+for_window [instance="Godot_Engine"] border normal
+
 
 # (Re)start the wallpaper, using the nitrogen application
 exec --no-startup-id nitrogen --restore
@@ -88,6 +95,7 @@ client.urgent           $bg-color	    $urgent-border-color   $text-color        
 # 'pixel' also removes the titlebar, which I do not find necessary
 # use setting 'normal' to enable the titlebar
 default_border pixel 0
+#default_floating_border normal
 
 # This removes the border when only one window is active.
 # If multiple are active, the border reappears.
@@ -228,7 +236,7 @@ set $ws-editor  "4:IDE "
 # icon: edit     (f044)
 
 set $ws5  "5:5"
-set $ws6  "6:Twitch "
+set $ws-player  "6:Twitch "
 set $ws7  "7:7"
 set $ws8  "8:8"
 set $ws-mail  "9:Email "    
@@ -244,7 +252,7 @@ bindsym $mod+2 workspace $ws-browser
 bindsym $mod+3 workspace $ws3
 bindsym $mod+4 workspace $ws-editor
 bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
+bindsym $mod+6 workspace $ws-player
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws-mail
@@ -256,7 +264,7 @@ bindsym $mod+Shift+2 move container to workspace $ws-browser
 bindsym $mod+Shift+3 move container to workspace $ws3
 bindsym $mod+Shift+4 move container to workspace $ws-editor
 bindsym $mod+Shift+5 move container to workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+6 move container to workspace $ws-player
 bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws-mail

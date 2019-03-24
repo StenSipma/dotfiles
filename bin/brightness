@@ -12,7 +12,6 @@ MAX_BRIGHTNESS=$(cat ${SDF_BRIGHTNESS_DIR}/max_brightness)
 CHANGE_AMOUNT=100
 
 # Send signal to the status bar
-pkill -RTMIN+1 i3blocks
 
 case $ACTION in
 	show)
@@ -23,12 +22,14 @@ case $ACTION in
 		if [[ $NEW_BRIGHTNESS -le $MAX_BRIGHTNESS ]]; then
 			printf "%d" $NEW_BRIGHTNESS > $SDF_BRIGHTNESS_DIR/brightness
 		fi
+		pkill -RTMIN+1 i3blocks
 		;;
 	down)
 		NEW_BRIGHTNESS=$((${CUR_BRIGHTNESS} - ${CHANGE_AMOUNT}))
 		if [[ $NEW_BRIGHTNESS -gt 0 ]]; then
 			printf "%d" $NEW_BRIGHTNESS > $SDF_BRIGHTNESS_DIR/brightness
 		fi
+		pkill -RTMIN+1 i3blocks
 		;;
 	*)
 		printf "'%s' is not a valid action\n" $ACTION

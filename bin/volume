@@ -4,20 +4,36 @@
 CONF_DIR="$HOME/.config/volume"
 sink=$(cat $CONF_DIR/selected_sink)
 
+
+function select-sink {
+	pactl list sinks | awk -v sink="#$1" '$2~sink, /^$/ {print}' 
+}
+
+function select-sink-description {
+	select-sink $1 | awk '/Description:/{for(i=2;i<=NF;i++){printf "%s ", $i}; printf "\n"} ' 
+}
+
+#TODO: add some test for correctness of currently selected sink
+
 case $1 in
 	show)
-		 level=$(pactl list sinks | grep --color=none -e 'Volume: front-left:' | awk -v sink_nr=$sink 'FNR==sink_nr + 1{print $5};' | sed 's/%//')
+		level=$(pactl list sinks | select-sink $sink | awk '/Volume: front-left:/{print $5};' | sed 's/%//')
 		printf "%d" "$level"
 		;;
 	show-muted)
-		output=$(pactl list sinks | grep --color=none -e 'Mute:' | awk -v sink_nr=$sink 'FNR==sink_nr + 1{print $2};')
+		output=$(pactl list sinks | select-sink $sink | awk '/Mute:/ {print $2}' )
 		printf "%s" "$output"
 		;;
 	show-sink)
 		printf "%d" "$sink"
 		;;
+	show-inputs)
+		select-sink-description $sink
+		;;
 	set-sink)
-		sinknumber="$(pactl list sinks short | awk '{print $1 " : " $2};' | sed 's/bluez_sink.*$/Bluetooth/; s/alsa_output.*$/Laptop/;' | rofi -dmenu -only-match -theme Arc-Dark-Custom| awk '{print $1};')"
+		sinknumber="$(pactl list sinks short | awk '{print $2; print $1}' | sed 's/bluez_sink.*$/Bluetooth/; s/alsa_output.*$/Laptop/;' | ~/scripts/wrappers/dmenu_wrapper.py)"
+		#sinknumbers=$(pactl list sinks short | awk '{print $1}')
+		#dmen_input=${sinknumbers//*([:digit:])/}
 		printf "%d" "$sinknumber" > $CONF_DIR/selected_sink
 		pkill -RTMIN+2 i3blocks
 		;;

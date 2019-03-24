@@ -17,6 +17,7 @@ export IDE="emacs"
 export EDITOR="vim"
 export PAGER="less"
 export IMAGE_VIEWER="sxiv"
+export PRINTER="DCPJ515W"
 
 export LESS="--raw-control-chars"
 
