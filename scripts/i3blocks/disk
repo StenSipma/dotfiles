@@ -1,0 +1,22 @@
+#!/bin/bash
+## Filename: disk
+## Author: Sten Sipma
+## Description: Script for displaying the remaining disk volume for i3blocks. Inspiration was taken from the default i3blocks disk volume script.
+
+DISK="${BLOCK_INSTANCE:-$HOME}"
+ALERT_LVL="${1:-100}"
+
+## Options for df:
+# -h : Humanly readable (uses GB etc instead of KB)
+# -P : POSIX output format (?)
+# -l : only local disks (?)
+# Final argument specifies a directory. df will show where it is mounted
+AMOUNT="$(df -h -P -l "$DISK" | awk '/\/.*/ { print $4 }')"
+
+echo "$AMOUNT" # full_text
+echo "$AMOUNT" # short_text
+echo ""        # colour
+
+# If the amount is lower or equal to the specified Alert level
+#  exit with status code 33, else exit normally with 0
+[[ ${AMOUNT%[^0-9]} -le $ALERT_LVL ]] && exit 33 || exit 0
