@@ -69,6 +69,8 @@ alias mkcd=". make-change-dir"
 alias p=$PAGER
 alias e=$EDITOR
 
+alias bt='bluetoothctl'
+
 # Usefull back command alias
 alias cd.='cd ../'
 alias cd..='cd ../../'
@@ -86,5 +88,10 @@ alias alert='i3-nagbar -t warning -m "Program finished"'
 STUDY_DIR=$HOME/Documents/Study
 alias study='cd $STUDY_DIR'
 alias exam='cd $STUDY_DIR/Exam_Scheduling'
-alias cg='cd $STUDY_DIR/Computer_Graphics'
-alias os='cd $STUDY_DIR/Operating_Systems'
+alias bsc='cd $STUDY_DIR/Bachelor_Thesis'
+
+## Python Virtual Environment Directory
+# This is used by `virtualenvwrapper`
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/Devel
+source ~/.local/bin/virtualenvwrapper.sh

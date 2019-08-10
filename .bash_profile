@@ -8,6 +8,7 @@
 
 # Add the local bin folder to path
 PATH+=$PATH:~/bin
+PATH+=$PATH:~/.local/bin
 
 # Set some default applications
 export BROWSER="firefox"
