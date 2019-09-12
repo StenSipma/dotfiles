@@ -13,9 +13,16 @@ ALERT_LVL="${1:-100}"
 # Final argument specifies a directory. df will show where it is mounted
 AMOUNT="$(df -h -P -l "$DISK" | awk '/\/.*/ { print $4 }')"
 
-echo "$AMOUNT" # full_text
-echo "$AMOUNT" # short_text
-echo ""        # colour
+
+full_out=$AMOUNT
+short_out=$full_out
+colour_out=""
+
+# Print the results in the correct format
+printf "%s\n%s\n" "$full_out" "$short_out"
+if [[ -n $colour_out ]]; then
+	printf "%s\n" "$colour_out"
+fi
 
 # If the amount is lower or equal to the specified Alert level
 #  exit with status code 33, else exit normally with 0

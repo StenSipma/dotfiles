@@ -15,7 +15,10 @@ else
 fi
 
 full_out+="$(volume show)%"
-
 short_out=$full_out
 colour_out=""
-printf "%s\n%s\n%s\n" "$full_out" "$short_out" "$colour_out"
+
+printf "%s\n%s\n" "$full_out" "$short_out"
+if [[ -n $colour_out ]]; then
+	printf "%s\n" "$colour_out"
+fi

@@ -29,9 +29,9 @@ for_window [class="Thunderbird"]                   move to workspace $ws-mail,  
 for_window [class="Spotify"]                       move to workspace $ws-music,   workspace $ws-music
 
 # Set automatic floating for some windows
-# Following two lines allow for a godot program (but not the editor etc) to float automatically
-#  the class label here must not start with "Godot". Leaving this out will also make the ProjectList
-#  and the editor float, which is not what we want.
+# Following two lines allow for a godot program (but not the editor etc) to float 
+# automatically  the class label here must not start with "Godot". Leaving this out 
+# will also make the ProjectList and the editor float, which is not what we want.
 for_window [instance="Godot_Engine" class="^[^G][^o][^d][^o][^t]"] floating enable
 for_window [instance="Godot_Engine" class="^[^G][^o][^d][^o][^t]"] border normal
 
@@ -214,7 +214,8 @@ bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 # Printscreen key
 bindsym Print exec --no-startup-id flameshot gui
 
-# custom keybinding to lockscreen, use --lock dim or --lock blur below for different backgrounds
+# Custom keybinding to lockscreen, use --lock dim or --lock blur below for 
+# different backgrounds
 bindsym $mod+shift+x exec betterlockscreen --lock dim
 
 # Set last used image as desktop background
@@ -341,15 +342,19 @@ bar {
 	# Use i3blocks instead of i3status
 	# -c specifies the location of the i3blocks config file
         status_command i3blocks -c ~/.config/i3/i3blocks.conf
+
+	# For debugging the status bar use:
+	#status_command 2>/tmp/i3blocks.err i3blocks -vvv -c ~/.config/i3/i3blocks.conf | tee /tmp/i3blocks.out
 	
-	# Strips the numbers from the workspace names, such that it just displays the name
-	# without the number, while the order will still be correct (1-10)
+	# Strips the numbers from the workspace names, such that it just displays 
+	# the name without the number, while the order will still be correct (1-10)
 	strip_workspace_numbers yes
 
 	# Colours for the bar. 
 	#From: https://github.com/bookercodes/dotfiles/blob/ubuntu/.i3/config
 	colors {
 		background $bg-color
+		statusline $text-color
 	    	separator #757575
 		#                  Border             Background         Text
 		focused_workspace  $bg-color          $bg-color          $text-color

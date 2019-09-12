@@ -87,8 +87,8 @@ alias alert='i3-nagbar -t warning -m "Program finished"'
 # Some shortcuts to often used directories
 STUDY_DIR=$HOME/Documents/Study
 alias study='cd $STUDY_DIR'
-alias exam='cd $STUDY_DIR/Exam_Scheduling'
 alias bsc='cd $STUDY_DIR/Bachelor_Thesis'
+alias hc='cd $STUDY_DIR/HC_Project'
 
 ## Python Virtual Environment Directory
 # This is used by `virtualenvwrapper`
