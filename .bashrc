@@ -89,6 +89,8 @@ STUDY_DIR=$HOME/Documents/Study
 alias study='cd $STUDY_DIR'
 alias bsc='cd $STUDY_DIR/Bachelor_Thesis'
 alias hc='cd $STUDY_DIR/HC_Project'
+alias we='cd $STUDY_DIR/Web_Engineering/Web-Engineering'
+
 
 ## Python Virtual Environment Directory
 # This is used by `virtualenvwrapper`

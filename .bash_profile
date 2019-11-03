@@ -1,14 +1,14 @@
 #!/bin/bash
 ## Filename: 	.bash_profile
-## Author: 	Sten Sipma 
+## Author: 	Sten Sipma
 
-# If the .bashrc file exists and is a file (-f) 
+# If the .bashrc file exists and is a file (-f)
 # in $HOME directory execute it
 #[[ -f ~/.bashrc ]] && . ~/.bashrc
 
-# Add the local bin folder to path
-PATH+=$PATH:~/bin
-PATH+=$PATH:~/.local/bin
+# Add local bin folders to path
+PATH=~/.local/bin:$PATH
+PATH=~/bin:$PATH
 
 # Set some default applications
 export BROWSER="firefox"

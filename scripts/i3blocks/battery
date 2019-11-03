@@ -56,7 +56,10 @@ esac
 
 output+=" ${percent}%"
 
-printf "%s\n%s\n%s\n" "$output" "$percent" "$colour"
+printf "%s\n%s\n" "$output" "$percent"
+if [[ -n $colour ]]; then
+	printf "%s\n" "$colour"
+fi
 
 #test ${percent} -le 20 && exit 33 || exit 0
 
