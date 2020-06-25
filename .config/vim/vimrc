@@ -1,0 +1,272 @@
+"" File:   vimrc
+"" Author: Sten Sipma
+"" Description:
+"" This file is executed when vim starts, configuring vim userwide
+
+" Some usefull variables
+
+" TODO: use a better method to set default config location (without system)
+let config_location = system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}"')
+let vim_config_dir = config_location . '/vim'
+
+" TODO: make compatible for when XDG entries are not set (check for existance)
+" Reset locations for vim data files.
+set directory=$XDG_CACHE_HOME/vim,~/,/tmp
+set backupdir=$XDG_CACHE_HOME/vim,~/,/tmp
+set viminfo+=n$XDG_CACHE_HOME/vim/viminfo
+set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
+" Set the environment variable MYVIMRC to the vimrc location
+let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
+
+" Leader key for custom commands, accessed using <leader>. Some reasonable
+" options are <SPC> or ,
+"let mapleader=","
+let mapleader=" "
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" PLUGINS 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Automatically download the vim-plug plugin manager if it is not downloaded
+" for the user. Does this by checking the .config directory. (first time only)
+" TODO: Make this smaller ?? (80 char limit)
+let plug_location = vim_config_dir . '/autoload/plug.vim'
+if ! filereadable(plug_location)
+	echo "Downloading junegunn/vim-plug to manage plugins..."
+	silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/vim/autoload/
+	silent !curl \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME/.config}/vim/autoload/plug.vim
+	autocmd VimEnter * PlugInstall
+endif
+
+"" Plugin Manager: vim-plug
+call plug#begin(vim_config_dir . '/plugged')
+	"" Auto Completion (YouCompleteMe)
+	" https://github.com/ycm-core/YouCompleteMe
+	" Installation steps: 
+	" https://github.com/ycm-core/YouCompleteMe#linux-64-bit
+	" 1. Add the plugin to vim & PlugInstall
+	" 2. Navigate to the plugin directory ($XDG_CONFIG_HOME/vim/plugged)
+	" 3. Navigate to the youcompleteme directory
+	" 4. Run the python install.py script with the desired options for the
+	"    wanted completion engines (--all for everything).
+	"    Currently build with:
+	"    --clangd-completer, C
+	"    --ts-completer , Javascript & Typescript
+	" 5. Make sure to add it at the start of the plugin list, as it makes
+	" sure python3 is loaded and not python2 (both cannot be loaded at the
+	" same time)
+	"investigate :ins-completion first!
+	"Plug 'valloric/youcompleteme'
+
+	"" Visual Undo Tree 
+	" https://github.com/mbbill/undotree/
+	Plug 'mbbill/undotree'
+
+	"" Magit Plugin for Vim 
+	" https://github.com/jreybert/vimagit
+	Plug 'jreybert/vimagit'
+
+	"" i3 Config Syntax Highlighting
+	" https://github.com/mboughaba/i3config.vim
+	" To use for any file (e.g. .config/i3/config) add the following
+	" # vim: filetype=i3config
+	Plug 'mboughaba/i3config.vim'
+
+	"" Easy Align
+	" https://github.com/junegunn/vim-easy-align
+	" Usage  :EasyAlign
+	Plug 'junegunn/vim-easy-align'
+
+	"" Syntax Files
+	Plug 'vim-scripts/haskell.vim'
+
+	"" Color Themes
+	Plug 'mhartington/oceanic-next'
+	Plug 'tyrannicaltoucan/vim-deep-space'
+	Plug 'liuchengxu/space-vim-theme'
+
+	"" Snippets
+	Plug 'honza/vim-snippets'
+	Plug 'SirVer/ultisnips'
+
+	"" Python Mode
+	" https://github.com/python-mode/python-mode
+	" :help pymode
+	" Deprication warning when initializing pymode. Disable for now...
+	"Plug 'klen/python-mode'
+	
+	""" Omni Complete Plugins
+	" SQL
+	"link: https://github.com/vim-scripts/SQLComplete.vim
+	Plug 'vim-scripts/SQLComplete.vim'
+	Plug 'vim-scripts/dbext.vim'
+
+call plug#end()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" GENERAL SETTINGS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Display line numbers (normal: number, relative: relativenumber)
+"set number
+set relativenumber
+
+"set nocompatible " Disables the (backwards) compatible mode for Vi
+set ruler        " Display current cursor position in the lower right corner
+set showcmd      " Display incomplete commands in the lower right corner
+set wildmenu     " Display command auto complete options as a status bar
+set incsearch    " Display match for search pattern whilst typing
+set splitright   " <Ctrl-w>v splits to the right instead of left
+
+" Set highlight searches (C-L to temporaraly turn off)
+set hlsearch
+nnoremap <C-L> :nohl<CR><C-L>
+
+" Enable using the mouse if available.  See 'mouse'.
+if has('mouse')
+	set mouse=a
+endif
+
+" Sets the indentation for a newly inserted line to be the same
+" as the current line.
+set autoindent
+
+" Enables 
+"  1. Filetype detection
+"  2. Using filetype plugin files
+"  3. Using indent files
+filetype plugin indent on
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" PLUGIN SETTINGS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""Python pymode:
+"let g:pymode = 1  " Turn on
+"let g:pymode_trim_whitespaces = 1 " Trim whitespace on save
+"let g:pymode_options = 1 " Turns on a bunch of options
+"                         " (see help: g:pymode_options)
+"let g:pymode_options_max_line_length = 79
+"let g:pymode_options_colorcolumn = 1
+"let g:pymode_quickfix_minheight = 3
+"let g:pymode_quickfix_maxheight = 6
+"let g:pymode_syntax = 1
+
+"" Snippets
+"let g:UltiSnipsExpandTrigger="<leader>e"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" COLORS / STYLE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+syntax enable       " Enable syntax highlighting
+set background=dark " Uses the colours which are better for a dark background
+" set termguicolors   " Needed for some terminals ??
+
+" Color scheme options:
+"colorscheme deep-space
+"colorscheme space_vim_theme
+colorscheme OceanicNext
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" AUTOCOMPLETE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""Insert Mode Completion:
+" Trying out the built in autocompletion (:help ins-completion)
+" CleverTab inserts a normal tab when the line is whitespace and will
+" start/stop insert autocomplete otherwise.
+function! CleverTab()
+	if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
+		return "\<Tab>"
+	else
+		return "\<C-N>"
+	endif
+endfunction
+
+" A 'smarter' function to recognize what is needed when tab is pressed
+function! SmartTab()
+	let line = getline('.') " Get the line at current position
+	" Get the part of the line up to and including the character after the
+	" cursor
+	let substr = strpart(line, -1, col('.'))
+	" Remove whitespace from the beginning of that line
+	let substr = matchstr(substr, "[^ \t]*$")       " word till cursor
+	if strlen(substr) == 0 
+		" Only whitespace before cursor
+		return "\<Tab>"
+	endif
+	let has_period = match(substr, '\.') != -1 
+	let has_slash  = match(substr, '\/') != -1
+	if pumvisible()
+		return "\<C-N>"
+	elseif (!has_period && !has_slash)
+		return "\<C-X>\<C-O>" " existing text matching
+	elseif ( has_slash )
+		return "\<C-X>\<C-F>" " file matching
+	else
+		return "\<C-X>\<C-O>" " plugin matching
+	endif
+endfunction
+
+" <C-R>=<expr> will execute the given expression, so in this case the
+" CleverTab function. (see i_CTRL-R_= )
+"inoremap <Tab> <C-R>=CleverTab()<CR>
+inoremap <Tab> <C-R>=SmartTab()<CR>
+
+" Map Keys to have some functionality whilst the popup menu is open:
+" <expr> makes sure the right side is evaluated as an expression and not
+" literally inserted
+inoremap <expr> <CR>  pumvisible() ? "\<C-Y>" : "\<CR>"
+inoremap <expr> <Esc> pumvisible() ? "\<C-E>" : "\<Esc>"
+inoremap <expr> <C-J> pumvisible() ? "\<C-N>" : "\<C-J>"
+inoremap <expr> <C-K> pumvisible() ? "\<C-P>" : "\<C-K>"
+
+" For this to work, vim needs to be compiled with `+textprop`
+set completeopt+=popup
+
+""Omni Complete:
+"
+set omnifunc=syntaxcomplete#Complete
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" KEY BINDINGS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Insert Mode:
+" Alternative exit from insert mode
+inoremap fd <esc>
+
+"" Normal Mode:
+" Yank to the clipboard (can add movement key after this ?)
+nnoremap <leader>y "+y
+
+" Move directly up in the terminal. Only affects movement when lines are
+" wrapped around
+nnoremap j gj
+nnoremap k gk
+
+" Cylce between buffers with SPC+Tab
+nnoremap <leader><Tab> :bnext<CR>
+" Get a list of buffers (:ls) and enter a number to go to that buffer. 
+nnoremap <leader>b :ls<CR>:b
+
+" Save & Source / Reload vimrc
+" TODO: only activate this in the vimrc file ?
+nnoremap <leader>s :w<CR>:source $MYVIMRC<CR>
+
+"" Visual Mode:
+" Yank to the clipboard (can add movement key after this ?)
+xnoremap <leader>c "+y
+
+"" Plugin Bindings:
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+" Visual undo tree (SPC u)
+nnoremap <leader>u :UndotreeToggle<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NOTES
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
