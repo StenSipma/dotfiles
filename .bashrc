@@ -14,8 +14,10 @@
 #set -o vi
 
 ## Bash Tab completion
-source /usr/share/bash-completion/bash_completion
-complete -c man which
+source /usr/share/bash-completion/bash_completion  # other package
+source $HOME/.config/bash-completion/bash_completion  # own commands
+
+complete -c man which # enable completion for these commands
 complete -cf sudo
 
 
@@ -78,6 +80,8 @@ alias cd...='cd ../../../'
 alias cd....='cd ../../../../'
 alias cd.....='cd ../../../../../'
 
+# Jupyter Notebook alias
+alias jn='jupyter notebook'
 
 # Usefull command to pair with longer running programs
 # alert will show when to program is finished when used
@@ -85,12 +89,20 @@ alias cd.....='cd ../../../../../'
 alias alert='i3-nagbar -t warning -m "Program finished"'
 
 # Some shortcuts to often used directories
-STUDY_DIR=$HOME/Documents/Study
-alias study='cd $STUDY_DIR'
-alias bsc='cd $STUDY_DIR/Bachelor_Thesis'
-alias hc='cd $STUDY_DIR/HC_Project'
-alias we='cd $STUDY_DIR/Web_Engineering/Web-Engineering'
+DOCS_DIR=$HOME/Documents
+STUDY_DIR=$DOCS_DIR/Study
+TA_DIR=$DOCS_DIR/TeachingAssistant
+PROJECTS_DIR=$DOCS_DIR/Projects
 
+alias study='cd $STUDY_DIR'
+alias pac='cd $DOCS_DIR/Projects/PracticalAstronomyCrew'
+alias ta='cd $TA_DIR'
+alias cw='cd $PROJECTS_DIR/CosmicWeb'
+
+alias oa='cd $STUDY_DIR/Observational_Astronomy'
+
+## Tomcat directory
+export CATALINA_HOME=/usr/share/tomcat8
 
 ## Python Virtual Environment Directory
 # This is used by `virtualenvwrapper`

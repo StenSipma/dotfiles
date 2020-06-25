@@ -32,7 +32,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(sql
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -40,39 +40,38 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
 
      ;; Tools
+     (treemacs :variables
+               treemacs-use-git-mode 'simple)
      helm
      git
-     pdf
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom
             shell-default-shell 'shell)
 
-     ;; File Types
-     csv
-     yaml
-     ;;json
 
      ;; Convenience
      semantic
      syntax-checking
+     lsp
+     bibtex
      (auto-completion :variables
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-help-tooltip 'manual
-                      auto-completion-idle-delay 0.1
+                      auto-completion-idle-delay 0.0
                       auto-completion-enable-snippets-in-popup t)
      (spell-checking :variables
                      spell-checking-enable-by-default nil
                      enable-flyspell-auto-completion t)
-     ;;lsp
-
-
-     bibtex
 
      ;; Programming Languages
      html
      javascript
      emacs-lisp
+     (java :variables
+           java-backend 'lsp)
+     (haskell :variables
+              haskell-completion-backend 'ghci)
 
      (python :variables
              python-formatter 'yapf
@@ -82,6 +81,13 @@ This function should only modify configuration layer settings."
             c-c++-enable-clang-support t
             c-c++-default-mode-for-headers 'c++-mode
             c-default-style "linux")
+
+     ;; File Types
+     csv
+     yaml
+     pdf
+     ipython-notebook
+     ;;json
 
      ;; Markup Languages
      markdown
@@ -510,8 +516,10 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  ;; -- PDF --
+  ;; (setq-default dotspacemacs-configuration-layers '(pdf-tools))
 
-
+  ;; -- LaTeX --
   (add-hook 'LaTeX-mode-hook 'spacemacs/toggle-spelling-checking-on)
   (add-hook 'LaTeX-mode-hook (lambda () (add-hook 'after-save-hook 'latex/build nil 'make-it-local)))
 
@@ -525,12 +533,21 @@ before packages are loaded."
   ;; (setq org-latex-pdf-process
   ;;       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 
+  ;; -- Org Mode --
+
+  ;; Changes which characters can preced and follow the emphasis markers such as *,=,/ etc. This allowes for part of words to be emphasised
+  ;; (setcar org-emphasis-regexp-components " \t('\"{[:alpha:]")
+  ;; (setcar (nthcdr 1 org-emphasis-regexp-components) "[:alpha:]- \t.,:!?;'\")}\\")
+  ;; (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
+
+
   ;; Custom key bindings
   ;; Org-Mode
   (spacemacs/declare-prefix-for-mode 'org-mode "M-m r" "org-ref-inserts")
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "rr" 'org-ref-helm-insert-ref-link)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "rc" 'org-ref-helm-insert-cite-link)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "rl" 'org-ref-helm-insert-label-link)
+
 
   )
 
@@ -554,7 +571,7 @@ This function is called at the very end of Spacemacs initialization."
  '(org-latex-listings t)
  '(package-selected-packages
    (quote
-    (tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode bui tree-mode lsp-mode dash-functional counsel-gtags add-node-modules-path csv-mode org-ref key-chord helm-bibtex parsebib biblio biblio-core bison-mode pdf-tools tablist json-navigator hierarchy json-mode json-snatcher json-reformat yasnippet-snippets yapfify xterm-color ws-butler writeroom-mode visual-fill-column winum web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen treemacs-projectile treemacs-evil treemacs ht pfuture toc-org tagedit symon string-inflection stickyfunc-enhance srefactor spaceline-all-the-icons spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters pytest pyenv-mode py-isort pug-mode prettier-js popwin pippel pipenv pyvenv pip-requirements persp-mode password-generator paradox spinner overseer orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-bullets org-brain open-junk-file nameless multi-term move-text mmm-mode markdown-toc markdown-mode magit-svn magit-gitflow magit-popup macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic epc ctable concurrent deferred impatient-mode simple-httpd hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose window-purpose imenu-list helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore request helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate google-c-style golden-ratio gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-popup flyspell-correct-helm flyspell-correct flycheck-rtags flycheck-pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-magit magit transient git-commit with-editor evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump doom-modeline eldoc-eval shrink-path all-the-icons memoize disaster diff-hl define-word cython-mode counsel-projectile projectile counsel swiper ivy pkg-info epl company-web web-completion-data company-statistics company-rtags rtags company-quickhelp pos-tip company-c-headers company-auctex company-anaconda company column-enforce-mode clean-aindent-mode clang-format centered-cursor-mode browse-at-remote auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed auctex-latexmk auctex anaconda-mode pythonic f dash s aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core ac-ispell auto-complete popup which-key use-package pcre2el org-plus-contrib hydra font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async))))
+    (sqlup-mode sql-indent tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode bui tree-mode lsp-mode dash-functional counsel-gtags add-node-modules-path csv-mode org-ref key-chord helm-bibtex parsebib biblio biblio-core bison-mode pdf-tools tablist json-navigator hierarchy json-mode json-snatcher json-reformat yasnippet-snippets yapfify xterm-color ws-butler writeroom-mode visual-fill-column winum web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen treemacs-projectile treemacs-evil treemacs ht pfuture toc-org tagedit symon string-inflection stickyfunc-enhance srefactor spaceline-all-the-icons spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters pytest pyenv-mode py-isort pug-mode prettier-js popwin pippel pipenv pyvenv pip-requirements persp-mode password-generator paradox spinner overseer orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-bullets org-brain open-junk-file nameless multi-term move-text mmm-mode markdown-toc markdown-mode magit-svn magit-gitflow magit-popup macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic epc ctable concurrent deferred impatient-mode simple-httpd hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose window-purpose imenu-list helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore request helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate google-c-style golden-ratio gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-popup flyspell-correct-helm flyspell-correct flycheck-rtags flycheck-pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-magit magit transient git-commit with-editor evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump doom-modeline eldoc-eval shrink-path all-the-icons memoize disaster diff-hl define-word cython-mode counsel-projectile projectile counsel swiper ivy pkg-info epl company-web web-completion-data company-statistics company-rtags rtags company-quickhelp pos-tip company-c-headers company-auctex company-anaconda company column-enforce-mode clean-aindent-mode clang-format centered-cursor-mode browse-at-remote auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed auctex-latexmk auctex anaconda-mode pythonic f dash s aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core ac-ispell auto-complete popup which-key use-package pcre2el org-plus-contrib hydra font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

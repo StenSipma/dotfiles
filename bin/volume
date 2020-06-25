@@ -4,10 +4,12 @@
 CONF_DIR="$HOME/.config/volume"
 MSG_NOTIFY_ID=90043
 
+# Sends a signal to the status bar
 function send-signal {
 	pkill -RTMIN+2 i3blocks
 }
 
+# Sends a notification to the notification system
 function notify {
 	dunstify -r "$MSG_NOTIFY_ID" -i audio-volume-medium "Volume $1" 
 }

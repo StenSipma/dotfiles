@@ -1,6 +1,7 @@
 #!/bin/bash
 
 monitor_name=DP-1-2
+monitor_name=DP-1-1
 monitor_mode=1920x1080
 main_monitor_name=eDP-1-1
 
