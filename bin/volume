@@ -32,6 +32,10 @@ function sink-exists {
 	echo $(pactl list sinks short | awk '{print $1}' | sed '1p; d')
 }
 
+function select-running-sink {
+	pactl list sinks short | awk '$7=="RUNNING"{print $1}' 
+}
+
 sink=$(cat $CONF_DIR/selected_sink)
 
 newsink=$(sink-exists $sink)
@@ -57,9 +61,14 @@ case $1 in
 		select-sink-description $sink
 		;;
 	set-sink)
-		sinknumber="$(pactl list sinks short | awk '{print $2; print $1}' | sed 's/bluez_sink.*$/Bluetooth/; s/alsa_output.*$/Laptop/;' | ~/scripts/wrappers/dmenu_wrapper.py)"
+		sinknumber="$(pactl list sinks short | awk '{print $2; print $1}' | sed 's/bluez_sink.*$/Bluetooth/; s/alsa_output.pci-*$/Laptop/;' | ~/scripts/wrappers/dmenu_wrapper.py)"
 		#sinknumbers=$(pactl list sinks short | awk '{print $1}')
 		#dmen_input=${sinknumbers//*([:digit:])/}
+		printf "%d" "$sinknumber" > $CONF_DIR/selected_sink
+		send-signal
+		;;
+	auto-select)
+		sinknumber=$(select-running-sink)
 		printf "%d" "$sinknumber" > $CONF_DIR/selected_sink
 		send-signal
 		;;

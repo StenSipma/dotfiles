@@ -20,6 +20,9 @@ import XMonad.Util.EZConfig (additionalKeys)
 
 import System.IO
 
+-- Import Media Keys
+import Graphics.X11.ExtraTypes.XF86
+
 
 -- Colours
 myBackgroundColour      = "#2f343f"
@@ -39,9 +42,26 @@ myModMask            = mod4Mask
 myBorderWidth        = 2
 
 -- Keybindings
+myKeys' :: [((KeyMask, KeySym), X ())]
 myKeys' = 
         -- Application starter (rofi)
 	[ ((myModMask, xK_d), spawn "rofi -show drun -modi drun#run -show-icons -theme Arc-Dark-Custom")
+
+	-- Control volume of currently selected sink
+	, ((noModMask, xF86XK_AudioRaiseVolume), spawn "volume up")
+	, ((noModMask, xF86XK_AudioLowerVolume), spawn "volume down")
+	, ((noModMask, xF86XK_AudioMute), spawn "volume mute")
+
+	-- Control (laptop) brightness 
+	, ((noModMask, xF86XK_MonBrightnessUp), spawn "brightness up")
+	, ((noModMask, xF86XK_MonBrightnessDown), spawn "brightness down")
+
+	-- Binding Play/Pause, Next, Previous buttons to playerctl (e.g. control spotify)
+	, ((noModMask, xF86XK_AudioPlay), spawn "playerctl play-pause")
+	, ((noModMask, xF86XK_AudioNext), spawn "playerctl next")
+	, ((noModMask, xF86XK_AudioPrev), spawn "playerctl previous")
+
+	, ((noModMask, xK_Print), spawn "flameshot gui")
 	]
 
 -- PrettyPrinter format specification for sending info to the status bar (xmobar)
@@ -59,6 +79,7 @@ myPP proc = xmobarPP
 	}
 
 -- Workspaces
+myWorkspaces :: [String]
 myWorkspaces = [ "Main"
                , "Browser"
                , "Terminal"
@@ -71,10 +92,10 @@ myWorkspaces = [ "Main"
                ]               
 
 -- Assign Applications to workspaces when started
-myManageHook = composeAll [ className =? "Firefox"     --> doF (W.shift "Browser")
+myManageHook = composeAll [ className =? "firefox"     --> doF (W.shift "Browser")
                           , className =? "Emacs"       --> doF (W.shift "Editor")
                           , className =? "Thunderbird" --> doF (W.shift "Email")
-                          , className =? "Spotify"     --> doF (W.shift "Music")
+                          , className =? "spotify"     --> doF (W.shift "Music")
 			  ]
 
 -- Main xmobar run sequence
@@ -82,7 +103,7 @@ main = do
 	-- Start the wallpaper manager using the previous config
 	nitrogen <- spawn "nitrogen --restore &"
 	-- Start a system tray for some applications (e.g. NetworkManager)
---	tray <- spawn "stalonetray &"
+	--tray <- spawn "stalonetray &"
 	-- Start the status bar using the specified config.
 	-- The result of the spawned process is given to the log pretty printer (PP)
         xmproc <- spawnPipe "xmobar $XDG_CONFIG_HOME/xmobar/xmobarrc"

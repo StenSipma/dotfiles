@@ -57,6 +57,10 @@ call plug#begin(vim_config_dir . '/plugged')
 	"investigate :ins-completion first!
 	"Plug 'valloric/youcompleteme'
 
+	"" Conquerer of Complete
+	" https://github.com/neoclide/coc.nvim
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 	"" Visual Undo Tree 
 	" https://github.com/mbbill/undotree/
 	Plug 'mbbill/undotree'
@@ -65,19 +69,23 @@ call plug#begin(vim_config_dir . '/plugged')
 	" https://github.com/jreybert/vimagit
 	Plug 'jreybert/vimagit'
 
-	"" i3 Config Syntax Highlighting
-	" https://github.com/mboughaba/i3config.vim
-	" To use for any file (e.g. .config/i3/config) add the following
-	" # vim: filetype=i3config
-	Plug 'mboughaba/i3config.vim'
-
 	"" Easy Align
 	" https://github.com/junegunn/vim-easy-align
 	" Usage  :EasyAlign
 	Plug 'junegunn/vim-easy-align'
 
+	"" reStructured text plugins
+	Plug 'previm/previm'
+	Plug 'rykka/riv.vim'
+
 	"" Syntax Files
 	Plug 'vim-scripts/haskell.vim'
+
+	"" i3 Config Syntax Highlighting
+	" https://github.com/mboughaba/i3config.vim
+	" To use for any file (e.g. .config/i3/config) add the following
+	" # vim: filetype=i3config
+	Plug 'mboughaba/i3config.vim'
 
 	"" Color Themes
 	Plug 'mhartington/oceanic-next'
@@ -85,8 +93,8 @@ call plug#begin(vim_config_dir . '/plugged')
 	Plug 'liuchengxu/space-vim-theme'
 
 	"" Snippets
+	"Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets'
-	Plug 'SirVer/ultisnips'
 
 	"" Python Mode
 	" https://github.com/python-mode/python-mode
@@ -154,6 +162,87 @@ filetype plugin indent on
 "let g:UltiSnipsJumpForwardTrigger="<c-b>"
 "let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
+"" Coc Auto Completion:
+set hidden
+set updatetime=300
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+" Recently vim can merge signcolumn and number column into one
+	set signcolumn=number
+else
+	set signcolumn=yes
+endif
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+
+function! s:check_back_space() abort
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+	if (index(['vim','help'], &filetype) >= 0)
+		execute 'h '.expand('<cword>')
+	else
+		call CocAction('doHover')
+	endif
+endfunction
+
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+"" Coc Snippets:
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+"" Previm: (Markdown, reStructured text preview etc)
+" call :PrevimOpen to open the realtime document in firefox
+let g:previm_open_cmd = 'firefox'
+
+"" Plugin Bindings:
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+"" Visual Undo Tree: (SPC u)
+nnoremap <leader>u :UndotreeToggle<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS / STYLE
@@ -174,59 +263,58 @@ colorscheme OceanicNext
 " Trying out the built in autocompletion (:help ins-completion)
 " CleverTab inserts a normal tab when the line is whitespace and will
 " start/stop insert autocomplete otherwise.
-function! CleverTab()
-	if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
-		return "\<Tab>"
-	else
-		return "\<C-N>"
-	endif
-endfunction
+"function! CleverTab()
+"	if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
+"		return "\<Tab>"
+"	else
+"		return "\<C-N>"
+"	endif
+"endfunction
 
 " A 'smarter' function to recognize what is needed when tab is pressed
-function! SmartTab()
-	let line = getline('.') " Get the line at current position
-	" Get the part of the line up to and including the character after the
-	" cursor
-	let substr = strpart(line, -1, col('.'))
-	" Remove whitespace from the beginning of that line
-	let substr = matchstr(substr, "[^ \t]*$")       " word till cursor
-	if strlen(substr) == 0 
-		" Only whitespace before cursor
-		return "\<Tab>"
-	endif
-	let has_period = match(substr, '\.') != -1 
-	let has_slash  = match(substr, '\/') != -1
-	if pumvisible()
-		return "\<C-N>"
-	elseif (!has_period && !has_slash)
-		return "\<C-X>\<C-O>" " existing text matching
-	elseif ( has_slash )
-		return "\<C-X>\<C-F>" " file matching
-	else
-		return "\<C-X>\<C-O>" " plugin matching
-	endif
-endfunction
+"function! SmartTab()
+"	let line = getline('.') " Get the line at current position
+"	" Get the part of the line up to and including the character after the
+"	" cursor
+"	let substr = strpart(line, -1, col('.'))
+"	" Remove whitespace from the beginning of that line
+"	let substr = matchstr(substr, "[^ \t]*$")       " word till cursor
+"	if strlen(substr) == 0 
+"		" Only whitespace before cursor
+"		return "\<Tab>"
+"	endif
+"	let has_period = match(substr, '\.') != -1 
+"	let has_slash  = match(substr, '\/') != -1
+"	if pumvisible()
+"		return "\<C-N>"
+"	elseif (!has_period && !has_slash)
+"		return "\<C-X>\<C-O>" " existing text matching
+"	elseif ( has_slash )
+"		return "\<C-X>\<C-F>" " file matching
+"	else
+"		return "\<C-X>\<C-O>" " plugin matching
+"	endif
+"endfunction
 
 " <C-R>=<expr> will execute the given expression, so in this case the
 " CleverTab function. (see i_CTRL-R_= )
 "inoremap <Tab> <C-R>=CleverTab()<CR>
-inoremap <Tab> <C-R>=SmartTab()<CR>
+"inoremap <Tab> <C-R>=SmartTab()<CR>
 
 " Map Keys to have some functionality whilst the popup menu is open:
 " <expr> makes sure the right side is evaluated as an expression and not
 " literally inserted
-inoremap <expr> <CR>  pumvisible() ? "\<C-Y>" : "\<CR>"
-inoremap <expr> <Esc> pumvisible() ? "\<C-E>" : "\<Esc>"
-inoremap <expr> <C-J> pumvisible() ? "\<C-N>" : "\<C-J>"
-inoremap <expr> <C-K> pumvisible() ? "\<C-P>" : "\<C-K>"
+"inoremap <expr> <CR>  pumvisible() ? "\<C-Y>" : "\<CR>"
+"inoremap <expr> <Esc> pumvisible() ? "\<C-E>" : "\<Esc>"
+"inoremap <expr> <C-J> pumvisible() ? "\<C-N>" : "\<C-J>"
+"inoremap <expr> <C-K> pumvisible() ? "\<C-P>" : "\<C-K>"
 
 " For this to work, vim needs to be compiled with `+textprop`
-set completeopt+=popup
+"set completeopt+=popup
 
 ""Omni Complete:
 "
-set omnifunc=syntaxcomplete#Complete
-
+"set omnifunc=syntaxcomplete#Complete
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " KEY BINDINGS
@@ -257,14 +345,6 @@ nnoremap <leader>s :w<CR>:source $MYVIMRC<CR>
 " Yank to the clipboard (can add movement key after this ?)
 xnoremap <leader>c "+y
 
-"" Plugin Bindings:
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-
-" Visual undo tree (SPC u)
-nnoremap <leader>u :UndotreeToggle<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NOTES

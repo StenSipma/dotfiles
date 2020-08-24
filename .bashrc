@@ -100,6 +100,7 @@ alias ta='cd $TA_DIR'
 alias cw='cd $PROJECTS_DIR/CosmicWeb'
 
 alias oa='cd $STUDY_DIR/Observational_Astronomy'
+alias anc='cd $PROJECTS_DIR/PracticalAstronomyCrew/astrometry_net_client'
 
 ## Tomcat directory
 export CATALINA_HOME=/usr/share/tomcat8
