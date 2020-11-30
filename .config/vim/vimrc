@@ -76,7 +76,7 @@ call plug#begin(vim_config_dir . '/plugged')
 
 	"" reStructured text plugins
 	Plug 'previm/previm'
-	Plug 'rykka/riv.vim'
+	"Plug 'rykka/riv.vim'
 
 	"" Syntax Files
 	Plug 'vim-scripts/haskell.vim'
@@ -93,8 +93,12 @@ call plug#begin(vim_config_dir . '/plugged')
 	Plug 'liuchengxu/space-vim-theme'
 
 	"" Snippets
-	"Plug 'SirVer/ultisnips'
+	Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets'
+
+	"" TeX
+	"https://github.com/lervag/vimtex
+	Plug 'lervag/vimtex'
 
 	"" Python Mode
 	" https://github.com/python-mode/python-mode
@@ -102,7 +106,12 @@ call plug#begin(vim_config_dir . '/plugged')
 	" Deprication warning when initializing pymode. Disable for now...
 	"Plug 'klen/python-mode'
 	
+	"" CSV
+	" https://github.com/chrisbra/csv.vim
+	Plug 'chrisbra/csv.vim'
+	
 	""" Omni Complete Plugins
+	"TODO is this needed?
 	" SQL
 	"link: https://github.com/vim-scripts/SQLComplete.vim
 	Plug 'vim-scripts/SQLComplete.vim'
@@ -136,12 +145,16 @@ endif
 " Sets the indentation for a newly inserted line to be the same
 " as the current line.
 set autoindent
+set expandtab
 
 " Enables 
 "  1. Filetype detection
 "  2. Using filetype plugin files
 "  3. Using indent files
 filetype plugin indent on
+
+" Displays a line at the 80 char column
+set colorcolumn=80
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGIN SETTINGS
@@ -157,10 +170,12 @@ filetype plugin indent on
 "let g:pymode_quickfix_maxheight = 6
 "let g:pymode_syntax = 1
 
-"" Snippets
-"let g:UltiSnipsExpandTrigger="<leader>e"
-"let g:UltiSnipsJumpForwardTrigger="<c-b>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+"" UltiSnips:
+" Remove the tab key as expand trigger (make compatible with coc-snippets)
+let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", $XDG_CONFIG_HOME. "/vim/user-snippets"]
+
+let g:ultisnips_python_style="numpy"
 
 "" Coc Auto Completion:
 set hidden
@@ -216,20 +231,22 @@ xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
 "" Coc Snippets:
+" Use enter (<cr>) to trigger snippet in the completion menu
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 " Use <C-l> for trigger snippet expand.
-imap <C-l> <Plug>(coc-snippets-expand)
+"imap <C-l> <Plug>(coc-snippets-expand)
 
 " Use <C-j> for select text for visual placeholder of snippet.
-vmap <C-j> <Plug>(coc-snippets-select)
+"vmap <C-j> <Plug>(coc-snippets-select)
 
 " Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<c-j>'
+"let g:coc_snippet_next = '<c-j>'
 
 " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<c-k>'
+"let g:coc_snippet_prev = '<c-k>'
 
 " Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
+"imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 "" Previm: (Markdown, reStructured text preview etc)
 " call :PrevimOpen to open the realtime document in firefox
@@ -243,6 +260,14 @@ nmap ga <Plug>(EasyAlign)
 
 "" Visual Undo Tree: (SPC u)
 nnoremap <leader>u :UndotreeToggle<CR>
+
+"" Vimtex:
+let g:tex_flavor = 'latex'
+
+"PDF viewer
+let g:vimtex_view_general_viewer = 'okular'
+let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+let g:vimtex_view_general_options_latexmk = '--unique'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS / STYLE

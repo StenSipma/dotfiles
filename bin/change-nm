@@ -16,11 +16,10 @@ case $1 in
 		systemctl enable --now wicd.service
 		;;
 	nm)
-	network-manager)
 		systemctl disable --now wicd.service
 		systemctl enable --now NetworkManager.service
 		;;
-	help)
+#	help)
 	*)
 		printf "Usage:\n"
 		printf " $ change-nm [wicd]  \n"
