@@ -65,6 +65,9 @@ alias grep='grep --color=always'
 ## See `make-change-dir` for explanation
 alias mkcd=". make-change-dir"
 
+## Easier virtual environment activation
+alias vactivate=". .env/bin/activate"
+
 ## Aliases for some standard programs (set in .bash_profile)
 # p for Pager (e.g. less, more etc.)
 # e for Editor for quick modifications

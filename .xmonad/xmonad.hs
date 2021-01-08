@@ -114,6 +114,8 @@ main = do
         tray <- spawn "stalonetray --geometry 6x1+1330+2 --icon-gravity NE --grow-gravity NW --background \"#2f343f\" &"
         -- Start the tray applet for NetworkManager. Might error if using wicd ?
         networkManager <- spawn "nm-applet &"
+        -- Start the tray applet for Pulseaudio control
+        pulseaudioManager <- spawn "pasystray &"
         -- Start the status bar using the specified config.
         -- The result of the spawned process is given to the log pretty printer (PP)
         xmproc <- spawnPipe "xmobar $XDG_CONFIG_HOME/xmobar/xmobarrc"

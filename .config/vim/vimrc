@@ -24,7 +24,7 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 let mapleader=" "
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" PLUGINS 
+" PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Automatically download the vim-plug plugin manager if it is not downloaded
 " for the user. Does this by checking the .config directory. (first time only)
@@ -41,7 +41,7 @@ endif
 call plug#begin(vim_config_dir . '/plugged')
 	"" Auto Completion (YouCompleteMe)
 	" https://github.com/ycm-core/YouCompleteMe
-	" Installation steps: 
+	" Installation steps:
 	" https://github.com/ycm-core/YouCompleteMe#linux-64-bit
 	" 1. Add the plugin to vim & PlugInstall
 	" 2. Navigate to the plugin directory ($XDG_CONFIG_HOME/vim/plugged)
@@ -57,60 +57,83 @@ call plug#begin(vim_config_dir . '/plugged')
 	"investigate :ins-completion first!
 	"Plug 'valloric/youcompleteme'
 
-	"" Conquerer of Complete
+	"" Conquerer Of Complete:
 	" https://github.com/neoclide/coc.nvim
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-	"" Visual Undo Tree 
+	"" Visual Undo Tree:
 	" https://github.com/mbbill/undotree/
 	Plug 'mbbill/undotree'
 
-	"" Magit Plugin for Vim 
+	"" Magit Plugin For Vim:
 	" https://github.com/jreybert/vimagit
 	Plug 'jreybert/vimagit'
 
-	"" Easy Align
+        "" ALE:
+        " https://github.com/dense-analysis/ale
+        "Plug 'dense-analysis/ale'
+
+	"" Easy Align:
 	" https://github.com/junegunn/vim-easy-align
 	" Usage  :EasyAlign
 	Plug 'junegunn/vim-easy-align'
 
-	"" reStructured text plugins
+        "" Commenting:
+        " https://github.com/tpope/vim-commentary
+        " Usage : gc
+        " Add custom filetypes with in
+        " `autocmd FileType apache setlocal commentstring=#\ %s`
+        Plug 'tpope/vim-commentary'
+
+	"" ReStructured Text Plugins:
 	Plug 'previm/previm'
 	"Plug 'rykka/riv.vim'
 
-	"" Syntax Files
+        """"""""""""""""""
+        "  Syntax Files  "
+        """"""""""""""""""
 	Plug 'vim-scripts/haskell.vim'
 
-	"" i3 Config Syntax Highlighting
+	"" I3 Config Syntax Highlighting:
 	" https://github.com/mboughaba/i3config.vim
 	" To use for any file (e.g. .config/i3/config) add the following
 	" # vim: filetype=i3config
 	Plug 'mboughaba/i3config.vim'
 
-	"" Color Themes
+	"" Color Themes:
 	Plug 'mhartington/oceanic-next'
 	Plug 'tyrannicaltoucan/vim-deep-space'
 	Plug 'liuchengxu/space-vim-theme'
 
-	"" Snippets
+	"" Snippets:
 	Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets'
 
-	"" TeX
+	"" TeX:
 	"https://github.com/lervag/vimtex
 	Plug 'lervag/vimtex'
 
-	"" Python Mode
+        """"""""""""""""""""
+        "  Python Plugins  "
+        """"""""""""""""""""
+	"" Python Mode:
 	" https://github.com/python-mode/python-mode
 	" :help pymode
 	" Deprication warning when initializing pymode. Disable for now...
 	"Plug 'klen/python-mode'
-	
-	"" CSV
+        "" Python Sense:
+        " https://github.com/jeetsukumaran/vim-pythonsense
+        " Adds movement information, for classes and functions. Adds
+        " ic : inner class
+        " af : around function
+        " etc.
+        Plug 'jeetsukumaran/vim-pythonsense'
+
+	"" CSV:
 	" https://github.com/chrisbra/csv.vim
 	Plug 'chrisbra/csv.vim'
-	
-	""" Omni Complete Plugins
+
+	""" Omni Complete Plugins:
 	"TODO is this needed?
 	" SQL
 	"link: https://github.com/vim-scripts/SQLComplete.vim
@@ -146,8 +169,11 @@ endif
 " as the current line.
 set autoindent
 set expandtab
+" Autoindent can have some issues, especially when pasting in text. To disable
+" this temporarily use the option 'paste'
+"set paste/nopaste
 
-" Enables 
+" Enables
 "  1. Filetype detection
 "  2. Using filetype plugin files
 "  3. Using indent files
@@ -178,8 +204,12 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", $XDG_CONFIG_HOME. "/vim/user-sni
 let g:ultisnips_python_style="numpy"
 
 "" Coc Auto Completion:
+
 set hidden
 set updatetime=300
+
+"Run sort imports on filesave
+"autocmd BufWrite *.py :CocCommand python.sortImports
 
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
@@ -304,11 +334,11 @@ colorscheme OceanicNext
 "	let substr = strpart(line, -1, col('.'))
 "	" Remove whitespace from the beginning of that line
 "	let substr = matchstr(substr, "[^ \t]*$")       " word till cursor
-"	if strlen(substr) == 0 
+"	if strlen(substr) == 0
 "		" Only whitespace before cursor
 "		return "\<Tab>"
 "	endif
-"	let has_period = match(substr, '\.') != -1 
+"	let has_period = match(substr, '\.') != -1
 "	let has_slash  = match(substr, '\/') != -1
 "	if pumvisible()
 "		return "\<C-N>"
@@ -359,7 +389,7 @@ nnoremap k gk
 
 " Cylce between buffers with SPC+Tab
 nnoremap <leader><Tab> :bnext<CR>
-" Get a list of buffers (:ls) and enter a number to go to that buffer. 
+" Get a list of buffers (:ls) and enter a number to go to that buffer.
 nnoremap <leader>b :ls<CR>:b
 
 " Save & Source / Reload vimrc
@@ -374,4 +404,3 @@ xnoremap <leader>c "+y
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NOTES
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
