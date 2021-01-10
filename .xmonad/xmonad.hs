@@ -99,23 +99,25 @@ myManageHook = composeAll [ className =? "firefox"     --> doF (W.shift "Browser
                           , className =? ""            --> doF (W.shift "Music")
 			  ]
 
+myStartupHook :: X ()
+myStartupHook = do  -- Start the wallpaper manager using the previous config
+                    spawnOnce "nitrogen --restore &"
+                    -- Start a system tray for some applications (e.g. NetworkManager)
+                    -- Options:
+                    -- geometry: [widthxheight]+x+y
+                    --           width and height are the default size for icon 
+                    --           +x is shift right by x (pixels?), opposite for -x (will wrap around)
+                    -- background: colour
+                    -- grow-gravity: direction for the bar to grow into, [N, W, S, E] or any 
+                    --               combination of them (i.e NE, to grow right and bottom)
+                    spawnOnce "stalonetray --geometry 6x1+1330+2 --icon-gravity NE --grow-gravity NW --background \"#2f343f\" &"
+                    -- Start the tray applet for NetworkManager. Might error if using wicd ?
+                    spawnOnce "nm-applet &"
+                    -- Start the tray applet for Pulseaudio control
+                    spawnOnce "pasystray &"
+
 -- Main xmobar run sequence
 main = do
-        -- Start the wallpaper manager using the previous config
-        nitrogen <- spawn "nitrogen --restore &"
-        -- Start a system tray for some applications (e.g. NetworkManager)
-        -- Options:
-        -- geometry: [widthxheight]+x+y
-        --           width and height are the default size for icon 
-        --           +x is shift right by x (pixels?), opposite for -x (will wrap around)
-        -- background: colour
-        -- grow-gravity: direction for the bar to grow into, [N, W, S, E] or any 
-        --               combination of them (i.e NE, to grow right and bottom)
-        tray <- spawn "stalonetray --geometry 6x1+1330+2 --icon-gravity NE --grow-gravity NW --background \"#2f343f\" &"
-        -- Start the tray applet for NetworkManager. Might error if using wicd ?
-        networkManager <- spawn "nm-applet &"
-        -- Start the tray applet for Pulseaudio control
-        pulseaudioManager <- spawn "pasystray &"
         -- Start the status bar using the specified config.
         -- The result of the spawned process is given to the log pretty printer (PP)
         xmproc <- spawnPipe "xmobar $XDG_CONFIG_HOME/xmobar/xmobarrc"
@@ -123,10 +125,11 @@ main = do
                 -- Dictionary with custom values and hooks
                     -- manageDocks     will shift the screen so the statusbar is visible
                 -- insertPosition  determines where a new window is spawned on the page.
-                { manageHook = manageDocks <+> insertPosition End Newer <+> myManageHook <+> manageHook def
-                , layoutHook = avoidStruts  $ layoutHook def
-                , logHook    = dynamicLogWithPP $ myPP xmproc
-                , workspaces = myWorkspaces
+                { manageHook  = manageDocks <+> insertPosition End Newer <+> myManageHook <+> manageHook def
+                , layoutHook  = avoidStruts  $ layoutHook def
+                , logHook     = dynamicLogWithPP $ myPP xmproc
+                , startupHook = myStartupHook
+                , workspaces  = myWorkspaces
                 , terminal           = myTerminal
                 , modMask            = myModMask
                 , borderWidth        = myBorderWidth

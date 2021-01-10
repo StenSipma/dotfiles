@@ -304,7 +304,14 @@ let g:vimtex_view_general_options_latexmk = '--unique'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax enable       " Enable syntax highlighting
 set background=dark " Uses the colours which are better for a dark background
-" set termguicolors   " Needed for some terminals ??
+if &term =~ '256color'
+    " disable Background Color Erase (BCE) so that color schemes
+    " render properly when inside 256-color tmux and GNU screen.
+    " see also https://sunaku.github.io/vim-256color-bce.html
+    set t_ut=
+endif
+
+"set termguicolors   " Needed for some terminals ??
 
 " Color scheme options:
 "colorscheme deep-space
