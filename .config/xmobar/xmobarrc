@@ -8,7 +8,7 @@ Config {
 	-- Layout
         , sepChar = "%"
         , alignSep = "}{"
-        , template = "%StdinReader% }{ %cpu%    %memory%    %battery%    %date%"
+        , template = "%UnsafeStdinReader% }{ %cpu%    %memory%    %battery%    %date%"
 	
 	-- Position
         , position = TopW C 100
@@ -37,6 +37,6 @@ Config {
                     , "-A"  , "20"
                     , "-a"  , "notify-send -u critical 'Battery Very Low'"
 				] 50
-                , Run StdinReader
+                , Run UnsafeStdinReader
                 ]
         }

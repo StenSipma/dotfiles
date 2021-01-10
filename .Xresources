@@ -1,17 +1,15 @@
-!! Filename:   ~/.Xresources file
+!! Filename:   .Xresources
 !! Author:     Sten Sipma
  
+! Set the font
+*.font: SourceCodePro:size=12
+
 !---------------------!
 ! URxvt Configuration !
 !---------------------!
 
 ! Disable the scrollbar
 URxvt.scrollBar: false
-
-! Set the font
-!Xft.font: Noto Sans 12
-!Xft.font: Noto Sans:size=12
-*.font: SourceCodePro:size=12
 URxvt*.font: xft:SourceCodePro:size=12
 URxvt.letterSpace: -1
 

@@ -45,51 +45,63 @@ myBorderWidth        = 2
 myKeys' :: [((KeyMask, KeySym), X ())]
 myKeys' = 
         -- Application starter (rofi)
-	[ ((myModMask, xK_d), spawn "rofi -show drun -modi drun#run -show-icons -theme Arc-Dark-Custom")
+    [ ((myModMask, xK_d), spawn "rofi -show drun -modi drun#run -show-icons -theme Arc-Dark-Custom")
 
-	-- Control volume of currently selected sink
-	, ((noModMask, xF86XK_AudioRaiseVolume), spawn "volume up")
-	, ((noModMask, xF86XK_AudioLowerVolume), spawn "volume down")
-	, ((noModMask, xF86XK_AudioMute), spawn "volume mute")
+    -- Control volume of currently selected sink
+    , ((noModMask, xF86XK_AudioRaiseVolume), spawn "volume up")
+    , ((noModMask, xF86XK_AudioLowerVolume), spawn "volume down")
+    , ((noModMask, xF86XK_AudioMute), spawn "volume mute")
 
-	-- Control (laptop) brightness 
-	, ((noModMask, xF86XK_MonBrightnessUp), spawn "brightness up")
-	, ((noModMask, xF86XK_MonBrightnessDown), spawn "brightness down")
+    -- Control (laptop) brightness 
+    , ((noModMask, xF86XK_MonBrightnessUp), spawn "brightness up")
+    , ((noModMask, xF86XK_MonBrightnessDown), spawn "brightness down")
 
-	-- Binding Play/Pause, Next, Previous buttons to playerctl (e.g. control spotify)
-	, ((noModMask, xF86XK_AudioPlay), spawn "playerctl play-pause")
-	, ((noModMask, xF86XK_AudioNext), spawn "playerctl next")
-	, ((noModMask, xF86XK_AudioPrev), spawn "playerctl previous")
+    -- Binding Play/Pause, Next, Previous buttons to playerctl (e.g. control spotify)
+    , ((noModMask, xF86XK_AudioPlay), spawn "playerctl play-pause")
+    , ((noModMask, xF86XK_AudioNext), spawn "playerctl next")
+    , ((noModMask, xF86XK_AudioPrev), spawn "playerctl previous")
 
-	, ((noModMask, xK_Print), spawn "flameshot gui")
-	]
+    , ((noModMask, xK_Print), spawn "flameshot gui")
+    ]
 
 -- PrettyPrinter format specification for sending info to the status bar (xmobar)
 -- `proc` argument is needed to specify where to data is being sent to
 myPP proc = xmobarPP 
-	{ ppOutput = hPutStrLn proc
-	, ppSep = "    " 
+    { ppOutput = hPutStrLn proc
+    , ppSep = "    " 
 
-	, ppCurrent = xmobarColor myBackgroundColour myTextColour . pad
-	, ppVisible = xmobarColor myTextColour myLightBackgroundColour . pad
-	, ppHidden = pad 
+    , ppCurrent = xmobarColor myBackgroundColour myTextColour . pad
+    , ppVisible = xmobarColor myTextColour myLightBackgroundColour . pad
+    , ppHidden = pad 
 
-	, ppLayout = wrap "Layout: " "" . xmobarColor myAlternateTextColour ""
-	, ppTitle = wrap "Window:  " "" . xmobarColor myAlternateTextColour "" . shorten 100
-	}
+    , ppLayout = wrap "Layout: " "" . xmobarColor myAlternateTextColour ""
+    , ppTitle = wrap "Window:  " "" . xmobarColor myAlternateTextColour "" . shorten 100
+    }
 
--- Workspaces
+-- Usefull function to create action statements
+wrapAction :: String -> String -> String
+wrapAction a body = "<action=" ++ a ++ ">" ++ body ++ "</action>"
+
+-- Enumerate function, adds indexes starting at some integer 
+-- enum 0 ["a", "b", "c"]
+-- --> [(0, "a"), (1, "b"), (2, "c")]
+enum :: Integral i => i -> [a] -> [(i, a)]
+enum n = zip [n..]
+
+xmobarEscape :: String -> String
+xmobarEscape = concatMap doubleLts
+      where 
+        doubleLts '<' = "<<"
+        doubleLts x   = [x]
+
+-- Workspaces (clickable)
+-- requires `xdotool` and usage of UnsafeStdInReader
+workspacesList :: [String]
+workspacesList = [ "Main" , "Browser" , "Terminal" , "Editor" , "5" , "Video" , "7" , "Email" , "Music" ]
+
 myWorkspaces :: [String]
-myWorkspaces = [ "Main"
-               , "Browser"
-               , "Terminal"
-               , "Editor"
-               , "5"
-               , "Video"
-               , "7"
-               , "Email"
-               , "Music"
-               ]               
+myWorkspaces = clickable . (map xmobarEscape) $ workspacesList
+               where clickable xs = [wrapAction ("xdotool key super+" ++ show n) ws | (n,  ws) <- enum 1 xs ]
 
 -- Assign Applications to workspaces when started
 myManageHook = composeAll [ className =? "firefox"     --> doF (W.shift "Browser")
@@ -97,7 +109,7 @@ myManageHook = composeAll [ className =? "firefox"     --> doF (W.shift "Browser
                           , className =? "Thunderbird" --> doF (W.shift "Email")
                           -- Match Spotify, no classname given on startup!
                           , className =? ""            --> doF (W.shift "Music")
-			  ]
+              ]
 
 myStartupHook :: X ()
 myStartupHook = do  -- Start the wallpaper manager using the previous config
@@ -136,6 +148,6 @@ main = do
                 , normalBorderColor  = myNormalBorderColor
                 , focusedBorderColor = myFocusedBorderColor
                 }
-		-- Apply additional custom keys
-		`additionalKeys` myKeys'
+            -- Apply additional custom keys
+            `additionalKeys` myKeys'
 
