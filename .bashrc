@@ -52,6 +52,8 @@ export PS2=' | '
 ## Aliases ##
 #############
 
+alias nvim='nvim -u $XDG_CONFIG_HOME/nvim/init.vim'
+
 ## Enables colors for some commands
 # for ls: -N	Prints the name without quotes
 alias ls='ls -N --color=always --group-directories-first'

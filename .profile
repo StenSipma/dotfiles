@@ -62,6 +62,9 @@ export LESS="--raw-control-chars"
 # Set the QT theme
 export QT_QPA_PLATFORMTHEME=qt5ct
 
+# Emoticons for pipx
+USE_EMOJI=true
+
 ## Start the X session:
 # (! $DISPLAY)      : If there is no current display (?)
 # ($XDG_VTNR -eq 1) : If the VT number equals 1 (e.g. Ctrl+Alt+1 I think)
