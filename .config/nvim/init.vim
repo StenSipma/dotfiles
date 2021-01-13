@@ -27,6 +27,8 @@ call plug#begin(stdpath("config") . "/vplugged")
 	" General:
         " Easy Align
 	Plug 'junegunn/vim-easy-align'
+        Plug 'szw/vim-maximizer'
+
 
 	" Color Themes:
         " OceanicNext theme
@@ -61,6 +63,11 @@ let g:gruvbox_material_background = 'hard'
 colorscheme gruvbox-material
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" MISC
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:maximizer_set_default_mapping = 0
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " KEY BINDINGS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Insert Mode:
@@ -85,11 +92,12 @@ nnoremap <leader>b :ls<CR>:b<space>
 nnoremap ga <Plug>(EasyAlign)
 
 " Save & Source the current file
-" TODO: only activate this in the vimrc file ?
 nnoremap <leader>ss :w<CR>:source %<CR>
 
 " Remove the search highlight
 nnoremap <C-l> :set nohlsearch<CR>
+" Toggle between maximizing current window and resoring layout
+nnoremap <leader>m :MaximizerToggle!<CR>
 
 "" Visual Mode:
 " Yank to the clipboard
