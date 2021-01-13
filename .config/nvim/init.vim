@@ -9,18 +9,21 @@
 " custom keybindings. Use: <leader> to access this key.
 let mapleader=" "
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGIN INSTALLATION
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Uses Vim Plug as a plugin manager. To install, run the following command in
 " the terminal:
 "
-" sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-"       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+" sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 "
 " TODO: add an install script at the beginnin of this file which installs vim
 "       plug automatically
 call plug#begin(stdpath("config") . "/vplugged")
+        " Auto Completion:
+        Plug 'neovim/nvim-lspconfig'
+        Plug 'nvim-lua/completion-nvim'
+
 	" General:
         " Easy Align
 	Plug 'junegunn/vim-easy-align'
@@ -28,15 +31,13 @@ call plug#begin(stdpath("config") . "/vplugged")
 	" Color Themes:
         " OceanicNext theme
 	Plug 'mhartington/oceanic-next' 
+        Plug 'morhetz/gruvbox'
+        Plug 'sainnhe/gruvbox-material'
 
-        " Does not work for the current version. (use nightly build)
-        " Completion:
-        "Plug 'neovim/nvim-lspconfig'
-
-        " File Management:
-        "Plug 'nvim-lua/popup.nvim'
-        "Plug 'nvim-lua/plenary.nvim'
-        "Plug 'nvim-telescope/telescope.nvim'
+        " Fuzzy Finder:
+        Plug 'nvim-lua/popup.nvim'
+        Plug 'nvim-lua/plenary.nvim'
+        Plug 'nvim-telescope/telescope.nvim'
 
 call plug#end()
 " plug#end already sets: 
@@ -44,15 +45,31 @@ call plug#end()
 "       syntax enable
 " So we do not need to set these after.
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" COLORSCHEME
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('termguicolors')
+        set termguicolors
+endif
+
+set background=dark " Uses the colours which are better for a dark background
+let g:gruvbox_material_background = 'hard'
+
+" Schemes (uncomment one):
+"colorscheme OceanicNext
+"colorscheme gruvbox
+colorscheme gruvbox-material
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " KEY BINDINGS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Insert Mode:
 " Alternative exit from insert mode
 inoremap fd <esc>
 
+
 "" Normal Mode:
-" Yank to the clipboard (can add movement key after this ?)
+" Yank to the clipboard (can be used with movement)
 nnoremap <leader>y "+y
 
 " Move directly up in the terminal. Only affects movement when lines are
@@ -71,8 +88,11 @@ nnoremap ga <Plug>(EasyAlign)
 " TODO: only activate this in the vimrc file ?
 nnoremap <leader>ss :w<CR>:source %<CR>
 
+" Remove the search highlight
+nnoremap <C-l> :set nohlsearch<CR>
+
 "" Visual Mode:
-" Yank to the clipboard (can add movement key after this ?)
+" Yank to the clipboard
 xnoremap <leader>c "+y
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)

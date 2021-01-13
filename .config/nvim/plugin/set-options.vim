@@ -15,6 +15,7 @@ set relativenumber " Numbers on the number line are relative to the cursor
 set nu             " Set the number on the cursor line to the line number
                    " (instead of 0)
 
+set nowrap         " Do not wrap the line if it exceeds the window size
 set scrolloff=3    " Scroll window down if cursor is 5 lines above/below the
                    " edges There exists a similar option for horizontal
                    " scrolling
@@ -39,3 +40,4 @@ set autoindent              " Going to a newline retains the indentation of the
 
 set hidden " Keep unsaved files active even in background (removes the 
            " force-save functionality when switching buffers)
+
