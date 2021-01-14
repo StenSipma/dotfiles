@@ -17,9 +17,10 @@ let mapleader=" "
 "
 " sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 "
-" TODO: add an install script at the beginnin of this file which installs vim
-"       plug automatically
+" TODO: add an install script at the beginnin of this file which installs 
+"       vim-plug automatically
 call plug#begin(stdpath("config") . "/vplugged")
+
         " Auto Completion:
         Plug 'neovim/nvim-lspconfig'
         Plug 'nvim-lua/completion-nvim'
@@ -27,19 +28,27 @@ call plug#begin(stdpath("config") . "/vplugged")
 	" General:
         " Easy Align
 	Plug 'junegunn/vim-easy-align'
+        " Window Maximizer (toggle)
         Plug 'szw/vim-maximizer'
-
+        " Git plugin
+	"Plug 'jreybert/vimagit'
 
 	" Color Themes:
-        " OceanicNext theme
 	Plug 'mhartington/oceanic-next' 
         Plug 'morhetz/gruvbox'
         Plug 'sainnhe/gruvbox-material'
+	Plug 'tyrannicaltoucan/vim-deep-space'
+	Plug 'liuchengxu/space-vim-theme'
 
         " Fuzzy Finder:
         Plug 'nvim-lua/popup.nvim'
         Plug 'nvim-lua/plenary.nvim'
         Plug 'nvim-telescope/telescope.nvim'
+
+        " Languages:
+        Plug 'tpope/vim-commentary'
+        " Python
+        Plug 'jeetsukumaran/vim-pythonsense'
 
 call plug#end()
 " plug#end already sets: 
@@ -60,7 +69,10 @@ let g:gruvbox_material_background = 'hard'
 " Schemes (uncomment one):
 "colorscheme OceanicNext
 "colorscheme gruvbox
+"colorscheme space-vim-theme
+"colorscheme deep-space
 colorscheme gruvbox-material
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC
@@ -98,6 +110,7 @@ nnoremap <leader>ss :w<CR>:source %<CR>
 nnoremap <C-l> :set nohlsearch<CR>
 " Toggle between maximizing current window and resoring layout
 nnoremap <leader>m :MaximizerToggle!<CR>
+
 
 "" Visual Mode:
 " Yank to the clipboard
