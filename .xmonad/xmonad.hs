@@ -104,11 +104,13 @@ myWorkspaces = clickable . (map xmobarEscape) $ workspacesList
                where clickable xs = [wrapAction ("xdotool key super+" ++ show n) ws | (n,  ws) <- enum 1 xs ]
 
 -- Assign Applications to workspaces when started
-myManageHook = composeAll [ className =? "firefox"     --> doF (W.shift "Browser")
-                          , className =? "Emacs"       --> doF (W.shift "Editor")
-                          , className =? "Thunderbird" --> doF (W.shift "Email")
+myManageHook = composeAll [ (className =? "firefox") <&&> (stringProperty "WM_WINDOW_ROLE" =? "browser")
+                                                       --> doShift (myWorkspaces!!1)
+                          , className =? "Emacs"       --> doShift (myWorkspaces!!3)
+                          , className =? "Thunderbird" --> doShift (myWorkspaces!!7)
                           -- Match Spotify, no classname given on startup!
-                          , className =? ""            --> doF (W.shift "Music")
+                          , className =? ""            --> doShift (myWorkspaces!!8)
+                          , className =? "Peek"        --> doFloat
               ]
 
 myStartupHook :: X ()
