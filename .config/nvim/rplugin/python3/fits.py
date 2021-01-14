@@ -1,5 +1,6 @@
 import pynvim
 from astropy.io import fits
+from os import path
 
 
 @pynvim.plugin
@@ -7,8 +8,15 @@ class FitsOpener(object):
     def __init__(self, nvim):
         self.nvim = nvim
 
-    @pynvim.command('FITSPreview', nargs=1, complete='file', sync=True)
-    def fits_preview_handler(self, args):
+    @pynvim.command('FITSHead', nargs=1, complete='file', bang=True, sync=True)
+    def fits_preview_handler(self, args, bang):
+        """
+        Command that, given a FITS file, displays the headers in a new floating
+        window.
+        The only argument is the filename.
+        A bang can be specified to remove the buffer (and therefore also the
+        window) when it is left.
+        """
         # Read file
         try:
             with fits.open(args[0]) as hdul:
@@ -32,15 +40,61 @@ class FitsOpener(object):
         # Add headers to the buffer
         table, w, h = draw_fancy_table(list(headers.items()),
                                        ret_width_height=True)
+        height = min(win_height - 4, h+1)
         newbuf.append(table)
         config = {"relative": "win", "win": win.number, "width": w,
-                  "height": win_height-4, "col": win_width-w - 4, "row": 2,
+                  "height": height, "col": win_width-w - 4, "row": 2,
                   "style": "minimal"}
 
         # Actually spawn the window
-        newwin = self.nvim.api.open_win(newbuf, True, config)
-        self.nvim.out_write(f"Window {newwin}\n")
-        self.nvim.api.del_current_line()
+        self.nvim.api.open_win(newbuf, True, config)
+
+        # Print filename at top line
+        self.nvim.current.line = path.split(args[0])[-1].center(w, ' ')
+
+        if bang:
+            # Close window on buffer leave
+            autocommand = "autocmd BufLeave <buffer={0}> :bunload {0}"
+            self.nvim.command(autocommand.format(newbuf.number))
+            self.nvim.out_write(f"Leaving buffer will close the window\n")
+
+
+def pad(string, n=1, padstr=" "):
+    """
+    Pad the given string with n times the padstr on each side.
+    """
+    return padstr*n + string + padstr*n
+
+
+def transpose(data):
+    """
+    Transpose a 2 dimensional array. Requires a constant row & column length,
+    although the rows and columns can have different lengths w.r.t. each other.
+
+    Essentially:
+        data[i, j] = data[j, i] for each i, j
+    """
+    return [[row[col] for row in data] for col in range(len(data[0]))]
+
+
+def replace(string, indices, chars):
+    """
+    Replaces the character at each index i (for each i in indices)
+    with chars[i]
+
+    Requires the indices to be sorted, but negative numbers are allowed (as
+    long as they are not smaller than -N...). The negative numbers should be
+    put at the end of the list.
+    """
+    N = len(string)
+    # make sure negative numbers are made positive (by adding len(string))
+    indices = [i + N if i < 0 else i for i in indices]
+    newstr = ""
+    prev = 0
+    for idx, ch in zip(indices, chars):
+        newstr += string[prev:idx] + ch
+        prev = idx+1
+    return newstr + string[prev:]
 
 
 # lines:
@@ -59,69 +113,47 @@ UP = 3
 DOWN = 4
 
 
-def pad(string, n=1, padstr=" "):
-    return padstr*n + string + padstr*n
-
-
-def transpose(data):
-    return [[row[col] for row in data] for col in range(len(data[0]))]
-
-
-def replace(string, indices, chars):
-    # make sure negative numbers are made positive (by adding len(string))
-    # indices have to be sorted, so -1 should be towards the end.
-    N = len(string)
-    indices = [i + N if i < 0 else i for i in indices]
-    newstr = ""
-    prev = 0
-    for idx, ch in zip(indices, chars):
-        newstr += string[prev:idx] + ch
-        prev = idx+1
-    return newstr + string[prev:]
-
-
 def draw_fancy_table(data, rows=True, lines="│─", corners="┌┐┘└",
                      crossings="┼├┤┬┴", align="<", ret_width_height=False):
-    """
-    lines:
-        0 - VERTICAL
-        1 - HORIZONTAL
-    corners:
-        0 - NW
-        1 - NE
-        2 - SE
-        3 - SW
-    crossings:
-        0 - MIDDLE
-        1 - LEFT
-        2 - RIGHT
-        3 - UP
-        4 - DOWN
-    """
     if len(data) < 1:
         raise ValueError("Data should now be empty")
     if rows:  # transpose to columns
         data = transpose(data)
     if len(align) == 1:
         align *= len(data)
+
+    # Calculate maximal size per column. There are some tricks to handle
+    # both number and string input
     widths = [max(col, key=lambda c: len(str(c))) for col in data]
     widths = [len(w) if isinstance(w, str) else w for w in widths]
 
+    # Make the format string (specify width & alignment)
     vline = lines[VERTICAL]
     row_fmt = pad(vline).join(["{:"+al+str(width)+"}" for al, width in zip(align, widths)])
     row_fmt = vline + " " + row_fmt + " " + vline
 
+    # Prepare bottom and top row as a flat line
     top_row = lines[HORIZONTAL]*(sum(widths) + 3*(len(widths)-1) + 2*2)
     bot_row = top_row[:]  # copy
 
-    top_row = replace(top_row, [0, -1], [corners[NW], corners[NE]])
-    bot_row = replace(bot_row, [0, -1], [corners[SW], corners[SE]])
-    # TODO find crossings
+    # Find crossings
+    cross_idxs = []
+    previous = 1
+    for width in widths[:-1]:
+        cross_idxs.append(previous+width + 2)
+    idxs = [0] + cross_idxs + [-1]
 
+    # Replace corners and crossings
+    top_row = replace(top_row, idxs, [corners[NW]] + len(cross_idxs)*[crossings[UP]] + [corners[NE]])
+    bot_row = replace(bot_row, idxs, [corners[SW]] + len(cross_idxs)*[crossings[DOWN]] + [corners[SE]])
+
+    # Format each row according to the format
     data = transpose(data)
     rowstrs = [row_fmt.format(*row) for row in data]
 
+    # Compose everything
     table = [top_row] + rowstrs + [bot_row]
+
     if ret_width_height:
         return table, len(table[0]), len(table)
     return table
