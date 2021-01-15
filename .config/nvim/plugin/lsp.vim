@@ -22,7 +22,11 @@ nnoremap gr        :lua vim.lsp.buf.references()<CR>
 " Rename on cursor
 nnoremap <space>rn :lua vim.lsp.buf.rename()<CR>
 
+" augroup MY_LSP_GROUP
+"         au!
+"         autocmd BufWrite *.py :lua vim.lsp.buf.formatting_sync(nil, 1000)
+" augroup END
 
 " LSP Server Setups:
 " Python (pyls)
-lua require'lspconfig'.pyls.setup{on_attach=require'completion'.on_attach}
+lua require'lspconfig'.pyls.setup( require'configs'.pylsconf )

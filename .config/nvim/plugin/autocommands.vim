@@ -10,6 +10,7 @@ augroup vimrc_incsearch_highlight
 	autocmd!
 	autocmd CmdlineEnter /,\? :set hlsearch
 	autocmd CmdlineLeave /,\? :set nohlsearch
+        autocmd BufWrite *.py :Black
 augroup END
 
 

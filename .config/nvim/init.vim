@@ -21,7 +21,7 @@ let mapleader=" "
 "       vim-plug automatically
 call plug#begin(stdpath("config") . "/vplugged")
 
-        " Auto Completion:
+        " Auto Completion Linting Formatting:
         Plug 'neovim/nvim-lspconfig'
         Plug 'nvim-lua/completion-nvim'
 
@@ -49,6 +49,8 @@ call plug#begin(stdpath("config") . "/vplugged")
         Plug 'tpope/vim-commentary'
         " Python
         Plug 'jeetsukumaran/vim-pythonsense'
+        " Formatter
+        Plug 'psf/black', { 'branch': 'stable' }
 
 call plug#end()
 " plug#end already sets: 

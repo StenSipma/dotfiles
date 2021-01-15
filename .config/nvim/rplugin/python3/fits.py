@@ -1,6 +1,7 @@
+from os import path
+
 import pynvim
 from astropy.io import fits
-from os import path
 
 
 @pynvim.plugin
@@ -8,7 +9,7 @@ class FitsOpener(object):
     def __init__(self, nvim):
         self.nvim = nvim
 
-    @pynvim.command('FITSHead', nargs=1, complete='file', bang=True, sync=True)
+    @pynvim.command("FITSHead", nargs=1, complete="file", bang=True, sync=True)
     def fits_preview_handler(self, args, bang):
         """
         Command that, given a FITS file, displays the headers in a new floating
@@ -23,7 +24,9 @@ class FitsOpener(object):
                 headers = hdul[0].header
         except OSError as e:
             if "Header missing END card." in e.args:
-                self.nvim.api.err_writeln(f"File '{args[0]}' is not a valid FITS file")
+                self.nvim.api.err_writeln(
+                    f"File '{args[0]}' is not a valid FITS file"
+                )
             else:
                 self.nvim.api.err_writeln(f"File '{args[0]}' is not a file")
             return
@@ -38,32 +41,39 @@ class FitsOpener(object):
         newbuf = self.nvim.api.create_buf(True, True)
 
         # Add headers to the buffer
-        table, w, h = draw_fancy_table(list(headers.items()),
-                                       ret_width_height=True)
-        height = min(win_height - 4, h+1)
+        table, w, h = draw_fancy_table(
+            list(headers.items()), ret_width_height=True
+        )
+        height = min(win_height - 4, h + 1)
         newbuf.append(table)
-        config = {"relative": "win", "win": win.number, "width": w,
-                  "height": height, "col": win_width-w - 4, "row": 2,
-                  "style": "minimal"}
+        config = {
+            "relative": "win",
+            "win": win.number,
+            "width": w,
+            "height": height,
+            "col": win_width - w - 4,
+            "row": 2,
+            "style": "minimal",
+        }
 
         # Actually spawn the window
         self.nvim.api.open_win(newbuf, True, config)
 
         # Print filename at top line
-        self.nvim.current.line = path.split(args[0])[-1].center(w, ' ')
+        self.nvim.current.line = path.split(args[0])[-1].center(w, " ")
 
         if bang:
             # Close window on buffer leave
             autocommand = "autocmd BufLeave <buffer={0}> :bunload {0}"
             self.nvim.command(autocommand.format(newbuf.number))
-            self.nvim.out_write(f"Leaving buffer will close the window\n")
+            self.nvim.out_write("Leaving buffer will close the window\n")
 
 
 def pad(string, n=1, padstr=" "):
     """
     Pad the given string with n times the padstr on each side.
     """
-    return padstr*n + string + padstr*n
+    return padstr * n + string + padstr * n
 
 
 def transpose(data):
@@ -93,9 +103,13 @@ def replace(string, indices, chars):
     prev = 0
     for idx, ch in zip(indices, chars):
         newstr += string[prev:idx] + ch
-        prev = idx+1
+        prev = idx + 1
     return newstr + string[prev:]
 
+
+#####################
+# Utility functions #
+#####################
 
 # lines:
 VERTICAL = 0
@@ -113,8 +127,15 @@ UP = 3
 DOWN = 4
 
 
-def draw_fancy_table(data, rows=True, lines="│─", corners="┌┐┘└",
-                     crossings="┼├┤┬┴", align="<", ret_width_height=False):
+def draw_fancy_table(
+    data,
+    rows=True,
+    lines="│─",
+    corners="┌┐┘└",
+    crossings="┼├┤┬┴",
+    align="<",
+    ret_width_height=False,
+):
     if len(data) < 1:
         raise ValueError("Data should now be empty")
     if rows:  # transpose to columns
@@ -129,23 +150,33 @@ def draw_fancy_table(data, rows=True, lines="│─", corners="┌┐┘└",
 
     # Make the format string (specify width & alignment)
     vline = lines[VERTICAL]
-    row_fmt = pad(vline).join(["{:"+al+str(width)+"}" for al, width in zip(align, widths)])
+    row_fmt = pad(vline).join(
+        ["{:" + al + str(width) + "}" for al, width in zip(align, widths)]
+    )
     row_fmt = vline + " " + row_fmt + " " + vline
 
     # Prepare bottom and top row as a flat line
-    top_row = lines[HORIZONTAL]*(sum(widths) + 3*(len(widths)-1) + 2*2)
+    top_row = lines[HORIZONTAL] * (sum(widths) + 3 * (len(widths) - 1) + 2 * 2)
     bot_row = top_row[:]  # copy
 
     # Find crossings
     cross_idxs = []
     previous = 1
     for width in widths[:-1]:
-        cross_idxs.append(previous+width + 2)
+        cross_idxs.append(previous + width + 2)
     idxs = [0] + cross_idxs + [-1]
 
     # Replace corners and crossings
-    top_row = replace(top_row, idxs, [corners[NW]] + len(cross_idxs)*[crossings[UP]] + [corners[NE]])
-    bot_row = replace(bot_row, idxs, [corners[SW]] + len(cross_idxs)*[crossings[DOWN]] + [corners[SE]])
+    top_row = replace(
+        top_row,
+        idxs,
+        [corners[NW]] + len(cross_idxs) * [crossings[UP]] + [corners[NE]],
+    )
+    bot_row = replace(
+        bot_row,
+        idxs,
+        [corners[SW]] + len(cross_idxs) * [crossings[DOWN]] + [corners[SE]],
+    )
 
     # Format each row according to the format
     data = transpose(data)
