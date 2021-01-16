@@ -28,8 +28,31 @@ complete -cf sudo
 # Attempt to show some git specific things in the prompt
 prompt_git() {
 	unset PROMPT_GIT
+        # Test if we are currently in a git directory
 	if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]]; then
-		PROMPT_GIT=' [git]'
+                # Set something to show that we are in a git dir
+		PROMPT_GIT='' 
+
+                # Count number of uncommited files
+                uncommited=$( git status --short | wc -l )
+                if [[ $uncommited > 0 ]]; then
+
+                        # Count number of files which are not added for commit.
+                        not_added=$(($uncommited - $( git status --short | sed '/^.[^ ] /d' | wc -l)))
+                        added=$(($uncommited - $( git status --short | sed '/^[^ ]. /d' | wc -l)))
+
+                        if [[ $not_added == 0 ]]; then
+                                PROMPT_GIT+="🚀 " # Other option: 🖆 
+                        else
+                                # Other option: 🗘 , 🖉, 🔴, ❗
+                                PROMPT_GIT+="🔴$not_added"
+                                if [[ $added > 0 ]]; then
+                                       # Options ✅ 💚 📗
+                                       PROMPT_GIT+=" 🌟$added" 
+                                fi
+                        # TODO (2021-01-16): Add check for difference between local and remote branch
+                        fi
+                fi
 	fi
 	echo "$PROMPT_GIT"
 }
@@ -40,8 +63,8 @@ prompt_git() {
 #  [username] at [hostname] in [current_dirname] 
 #   $ []
 ##
-export PS1='\u at \h in \W\n $ '
-#export PS1='\u at \h in \W$(prompt_git)\n $ '
+#export PS1='\u at \h in \W\n $ '
+export PS1='\u at \h in \W $(prompt_git)\n $ '
 
 # Sets the prompt for when a command is specified on more
 # than one line (e.g. by using \ or not closing a quote etc.)
