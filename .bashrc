@@ -56,8 +56,8 @@ alias nvim='nvim -u $XDG_CONFIG_HOME/nvim/init.vim'
 
 ## Enables colors for some commands
 # for ls: -N	Prints the name without quotes
-alias ls='ls -N --color=always --group-directories-first'
-alias grep='grep --color=always'
+alias ls='ls -N --color=auto --group-directories-first'
+alias grep='grep --color=auto'
 # NOTE: Option --color=always may cause some issues when
 # it is used in further processing.
 # if so, use switch `always` to `auto`. This allowes color
