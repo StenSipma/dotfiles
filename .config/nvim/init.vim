@@ -24,6 +24,13 @@ call plug#begin(stdpath("config") . "/vplugged")
         " Auto Completion Linting Formatting:
         Plug 'neovim/nvim-lspconfig'
         Plug 'nvim-lua/completion-nvim'
+        "Plug 'norcalli/snippets.nvim'
+
+        " Snippets:
+        " Ultisnips snippets engine
+        Plug 'SirVer/ultisnips'
+        " Actual Snippets
+        Plug 'honza/vim-snippets'
 
 	" General:
         " Easy Align
@@ -45,8 +52,10 @@ call plug#begin(stdpath("config") . "/vplugged")
         Plug 'nvim-lua/plenary.nvim'
         Plug 'nvim-telescope/telescope.nvim'
 
-        " Languages:
+        " Language Tools:
         Plug 'tpope/vim-commentary'
+        " Auto Match Parenthesis, quotes etc.
+        Plug 'Raimondi/delimitMate'
         " Python
         Plug 'jeetsukumaran/vim-pythonsense'
         " Formatter
@@ -74,7 +83,6 @@ let g:gruvbox_material_background = 'hard'
 "colorscheme space-vim-theme
 "colorscheme deep-space
 colorscheme gruvbox-material
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC

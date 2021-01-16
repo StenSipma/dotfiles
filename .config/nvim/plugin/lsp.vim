@@ -5,9 +5,11 @@
 "       configurations.
 
 " Set completeopt to have a better completion experience
+" TODO: figure out what the options actually do
 set completeopt=menuone,noinsert,noselect
 
 " Avoid showing message extra message when using completion
+" TODO: figure out what the options actually do
 set shortmess+=c
 
 " General Keybindings:
@@ -15,12 +17,17 @@ set shortmess+=c
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+
 " Jump to definition
 nnoremap gd        :lua vim.lsp.buf.definition()<CR>
 " List references
 nnoremap gr        :lua vim.lsp.buf.references()<CR>
+nnoremap <leader>ca :lua vim.lsp.buf.code_action()<CR>  
 " Rename on cursor
-nnoremap <space>rn :lua vim.lsp.buf.rename()<CR>
+nnoremap <leader>rn :lua vim.lsp.buf.rename()<CR>
+
+"command RestartLSP :lua vim.lsp.stop_client(vim.lsp.get_active_clients())
 
 " augroup MY_LSP_GROUP
 "         au!

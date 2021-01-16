@@ -5,7 +5,7 @@ from astropy.io import fits
 
 
 @pynvim.plugin
-class FitsOpener(object):
+class FitsOpen:
     def __init__(self, nvim):
         self.nvim = nvim
 

@@ -1,0 +1,21 @@
+# Some comment
+priority -60
+
+global !p
+from vimsnippets import get_comment_format
+endglobal
+
+snippet todo "A TODO Comment" b
+`!p snip.rv = get_comment_format()[0]` TODO${1: (`date +%F`)}: ${2:The todo comment}
+endsnippet
+
+snippet header "A nice header for the beginning of a file" b
+`!p snip.rv = get_comment_format()[0]` File:   `!p snip.rv = snip.fn`
+`!p snip.rv = get_comment_format()[0]` Author: ${1:`!v g:my_name`} ${2:(`!v g:my_email`)}
+`!p snip.rv = get_comment_format()[0]` Description:
+`!p snip.rv = get_comment_format()[0]`	${3:Some description}
+`!p snip.rv = get_comment_format()`	
+${0}
+endsnippet
+
+# vim:ft=snippets:

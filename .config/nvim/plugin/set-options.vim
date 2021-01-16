@@ -41,3 +41,4 @@ set autoindent              " Going to a newline retains the indentation of the
 set hidden " Keep unsaved files active even in background (removes the 
            " force-save functionality when switching buffers)
 
+set inccommand=split  " TODO: figure out what this does exactly

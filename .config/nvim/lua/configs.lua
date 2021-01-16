@@ -1,6 +1,11 @@
 local all_attach = require'completion'.on_attach
 
--- Work in progress...
+-- Prepare snippet capabilities
+--require'snippets'.use_suggested_mappings()
+-- local nvim_lsp = require('lspconfig')
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true;
+
 pylsconf = {
         -- Not sure if this actually does anything...
         settings = {
@@ -11,6 +16,7 @@ pylsconf = {
                         }
                 }
         },
+        -- capabilities = capabilities,
         on_attach = all_attach
 }
 

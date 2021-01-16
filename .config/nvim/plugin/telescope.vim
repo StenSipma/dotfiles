@@ -1,4 +1,8 @@
-" Find files using Telescope
+" File:   lsp.vim
+" Author: Sten Sipma (sten.sipma@ziggo.nl)
+" Description:
+"       (Neo)vim configuration file for the Telescope plugin
+
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 "nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
