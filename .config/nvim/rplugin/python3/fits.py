@@ -3,6 +3,10 @@ from os import path
 import pynvim
 from astropy.io import fits
 
+from typing import List, Union
+
+Number = Union[int, float]
+
 
 @pynvim.plugin
 class FitsOpen:
@@ -41,9 +45,9 @@ class FitsOpen:
         newbuf = self.nvim.api.create_buf(True, True)
 
         # Add headers to the buffer
-        table, w, h = draw_fancy_table(
-            list(headers.items()), ret_width_height=True
-        )
+        table = draw_fancy_table(list(headers.items()))
+        w, h = len(table[0]), len(table)
+
         height = min(win_height - 4, h + 1)
         newbuf.append(table)
         config = {
@@ -69,14 +73,14 @@ class FitsOpen:
             self.nvim.out_write("Leaving buffer will close the window\n")
 
 
-def pad(string, n=1, padstr=" "):
+def pad(string: str, n: int = 1, padstr: str = " "):
     """
     Pad the given string with n times the padstr on each side.
     """
     return padstr * n + string + padstr * n
 
 
-def transpose(data):
+def transpose(data: List[List[Union[Number, str]]]):
     """
     Transpose a 2 dimensional array. Requires a constant row & column length,
     although the rows and columns can have different lengths w.r.t. each other.
@@ -87,7 +91,7 @@ def transpose(data):
     return [[row[col] for row in data] for col in range(len(data[0]))]
 
 
-def replace(string, indices, chars):
+def replace(string: str, indices: List[int], chars: Union[str, List[str]]):
     """
     Replaces the character at each index i (for each i in indices)
     with chars[i]
@@ -128,14 +132,13 @@ DOWN = 4
 
 
 def draw_fancy_table(
-    data,
-    rows=True,
-    lines="│─",
-    corners="┌┐┘└",
-    crossings="┼├┤┬┴",
-    align="<",
-    ret_width_height=False,
-):
+    data: List[List[Union[Number, str]]],
+    rows: bool = True,
+    lines: str = "│─",
+    corners: str = "┌┐┘└",
+    crossings: str = "┼├┤┬┴",
+    align: str = "<",
+) -> List[str]:
     if len(data) < 1:
         raise ValueError("Data should now be empty")
     if rows:  # transpose to columns
@@ -145,8 +148,8 @@ def draw_fancy_table(
 
     # Calculate maximal size per column. There are some tricks to handle
     # both number and string input
-    widths = [max(col, key=lambda c: len(str(c))) for col in data]
-    widths = [len(w) if isinstance(w, str) else w for w in widths]
+    max_elems = [max(col, key=lambda c: len(str(c))) for col in data]
+    widths = [len(str(w)) for w in max_elems]
 
     # Make the format string (specify width & alignment)
     vline = lines[VERTICAL]
@@ -185,6 +188,4 @@ def draw_fancy_table(
     # Compose everything
     table = [top_row] + rowstrs + [bot_row]
 
-    if ret_width_height:
-        return table, len(table[0]), len(table)
     return table

@@ -36,4 +36,6 @@ nnoremap <leader>rn :lua vim.lsp.buf.rename()<CR>
 
 " LSP Server Setups:
 " Python (pyls)
-lua require'lspconfig'.pyls.setup( require'configs'.pylsconf )
+"lua require'lspconfig'.pyls.setup( require'configs'.pyls_conf )
+" Python (pyright)
+lua require'lspconfig'.pyright.setup( require'configs'.pyright_conf )
