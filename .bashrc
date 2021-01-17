@@ -38,14 +38,17 @@ prompt_git() {
                 if [[ $uncommited > 0 ]]; then
 
                         # Count number of files which are not added for commit.
-                        not_added=$(($uncommited - $( git status --short | sed '/^.[^ ] /d' | wc -l)))
-                        added=$(($uncommited - $( git status --short | sed '/^[^ ]. /d' | wc -l)))
+                        not_added=$(($uncommited - $( git status --short | sed '/^.[^ ?] /d' | wc -l)))
+                        added=$(($uncommited - $( git status --short | sed '/^[^ ?]. /d' | wc -l)))
+                        untracked=$(($uncommited - $( git status --short | sed '/^?? /d' | wc -l)))
 
-                        if [[ $not_added == 0 ]]; then
+                        all_not_added=$(($not_added + $untracked))
+
+                        if [[ $all_not_added == 0 ]]; then
                                 PROMPT_GIT+="🚀 " # Other option: 🖆 
                         else
                                 # Other option: 🗘 , 🖉, 🔴, ❗
-                                PROMPT_GIT+="🔴$not_added"
+                                PROMPT_GIT+="🔴$all_not_added"
                                 if [[ $added > 0 ]]; then
                                        # Options ✅ 💚 📗
                                        PROMPT_GIT+=" 🌟$added" 
