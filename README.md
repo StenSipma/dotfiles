@@ -3,7 +3,7 @@ This repository contains some of my main configuration files / dotfiles
 
 ## Overview
 Here is an overview of the most notable configurations in this repository (the applications + file locations):
-- [NeoVim](https://neovim.io/) - Highly extensible text editor. Config files [.config/nvim/](./config/nvim)
+- [NeoVim](https://neovim.io/) - Highly extensible text editor. Config files [.config/nvim/](./.config/nvim)
 - [XMonad](https://xmonad.org/) - Tiling window manager written (& configurable) in [Haskell](https://www.haskell.org/). Files in [.xmonad/](./.xmonad)
 - [xmobar](https://xmobar.org/) - Status bar used in combination with *XMonad*. Files in [.config/xmobar/](./.config/xmobar)
 - [st](https://st.suckless.org/) - Simple Terminal, suckless software, so there is a [separate repository](https://github.com/StenSipma/st) dedicated to my version of st.
