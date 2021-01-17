@@ -1,11 +1,5 @@
 local all_attach = require'completion'.on_attach
 
--- Prepare snippet capabilities
---require'snippets'.use_suggested_mappings()
--- local nvim_lsp = require('lspconfig')
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities.textDocument.completion.completionItem.snippetSupport = true;
-
 pylsconf = {
         -- Not sure if this actually does anything...
         settings = {
@@ -20,6 +14,18 @@ pylsconf = {
         on_attach = all_attach
 }
 
+treesitterconf = {
+         -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+        ensure_installed = "maintained",
+        indent = { enable = false },
+        incremental_selection = { enable = false },
+        highlight = {
+                enable = true
+                -- list of language that will be disabled
+                -- disable = { "c", "rust" },
+        },
+}
 return {
-        pylsconf = pylsconf
+        pylsconf = pylsconf,
+        treesitterconf = treesitterconf 
 }

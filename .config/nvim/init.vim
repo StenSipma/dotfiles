@@ -24,7 +24,6 @@ call plug#begin(stdpath("config") . "/vplugged")
         " Auto Completion Linting Formatting:
         Plug 'neovim/nvim-lspconfig'
         Plug 'nvim-lua/completion-nvim'
-        "Plug 'norcalli/snippets.nvim'
 
         " Snippets:
         " Ultisnips snippets engine
@@ -39,6 +38,10 @@ call plug#begin(stdpath("config") . "/vplugged")
         Plug 'szw/vim-maximizer'
         " Git plugin
 	"Plug 'jreybert/vimagit'
+        " Treesitter, source code trees & better highlighting
+        Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+        " Auto Match Parenthesis, quotes etc.
+        Plug 'Raimondi/delimitMate'
 
 	" Color Themes:
 	Plug 'mhartington/oceanic-next' 
@@ -54,8 +57,6 @@ call plug#begin(stdpath("config") . "/vplugged")
 
         " Language Tools:
         Plug 'tpope/vim-commentary'
-        " Auto Match Parenthesis, quotes etc.
-        Plug 'Raimondi/delimitMate'
         " Python
         Plug 'jeetsukumaran/vim-pythonsense'
         " Formatter
