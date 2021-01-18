@@ -65,6 +65,15 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 # Emoticons for pipx
 USE_EMOJI=true
 
+# Source bashrc as well if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+    fi
+fi
+
+
 ## Start the X session:
 # (! $DISPLAY)      : If there is no current display (?)
 # ($XDG_VTNR -eq 1) : If the VT number equals 1 (e.g. Ctrl+Alt+1 I think)
