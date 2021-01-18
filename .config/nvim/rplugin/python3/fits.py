@@ -139,6 +139,9 @@ def draw_fancy_table(
     crossings: str = "┼├┤┬┴",
     align: str = "<",
 ) -> List[str]:
+    """
+    TODO (2021-01-18): Add documentation
+    """
     if len(data) < 1:
         raise ValueError("Data should now be empty")
     if rows:  # transpose to columns
