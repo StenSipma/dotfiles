@@ -1,0 +1,62 @@
+# File:   aliases
+# Author: Sten Sipma (sten.sipma@ziggo.nl)
+# Description:
+#	File containing aliases for the shell. Should be executable by both
+#       Bash and Zsh
+
+alias nvim='nvim -u $XDG_CONFIG_HOME/nvim/init.vim'
+
+## Enables colors for some commands
+# for ls: -N	Prints the name without quotes
+alias ls='ls -N --color=auto --group-directories-first'
+alias grep='grep --color=auto'
+# NOTE: Option --color=always may cause some issues when
+# it is used in further processing.
+# if so, use switch `always` to `auto`. This allowes color
+# only to be displayed when the output is stdout.
+
+
+## See `make-change-dir` for explanation
+alias mkcd=". make-change-dir"
+
+## Easier virtual environment activation
+alias vactivate=". .env/bin/activate"
+
+## Aliases for some standard programs (set in .bash_profile)
+# p for Pager (e.g. less, more etc.)
+# e for Editor for quick modifications
+alias p=$PAGER
+alias e=$EDITOR
+
+alias bt='bluetoothctl'
+
+# Usefull back command alias
+alias cd.='cd ../'
+alias cd..='cd ../../'
+alias cd...='cd ../../../'
+alias cd....='cd ../../../../'
+alias cd.....='cd ../../../../../'
+
+# Jupyter Notebook alias
+alias jn='jupyter notebook'
+
+# Usefull command to pair with longer running programs
+# alert will show when to program is finished when used
+# like this: $ ./long-program && alert
+alias alert='notify-send "Program finished"'
+
+# Some shortcuts to often used directories
+DOCS_DIR=$HOME/Documents
+STUDY_DIR=$DOCS_DIR/Study
+TA_DIR=$DOCS_DIR/TeachingAssistant
+PROJECTS_DIR=$DOCS_DIR/Projects
+
+alias study='cd $STUDY_DIR'
+alias pac='cd $DOCS_DIR/Projects/PracticalAstronomyCrew'
+alias ta='cd $TA_DIR'
+alias cw='cd $PROJECTS_DIR/CosmicWeb'
+
+alias oa='cd $STUDY_DIR/Observational_Astronomy'
+alias anc='cd $PROJECTS_DIR/PracticalAstronomyCrew/astrometry_net_client'
+
+# vim: ft=bash:
