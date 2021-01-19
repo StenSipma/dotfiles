@@ -20,6 +20,10 @@ pyright_conf = {
         --root_dir = root_fallback;
         root_dir = util.root_pattern(".git", "setup.py",  "setup.cfg", "pyproject.toml", "requirements.txt", "*.py");
         settings = {
+                defaultVenv = {".env"};
+                pyright = {
+                        disableOrganizeImports = true;
+                };
                 python = {
                         analysis = {
                                 autoSearchPaths = true;
@@ -43,8 +47,21 @@ treesitter_conf = {
         };
 };
 
+telescope_conf = {
+        defaults = {
+                prompt_prefix = " 🔭";
+                file_ignore_patterns = { 
+                        ".env";
+                        "*.egg-info";
+                        "vplugged";
+                        "__pycache__/";
+                };
+        };
+};
+
 return {
         pyls_conf = pyls_conf;
         treesitter_conf = treesitter_conf;
         pyright_conf = pyright_conf;
+        telescope_conf = telescope_conf;
 }
