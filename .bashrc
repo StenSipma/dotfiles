@@ -117,7 +117,7 @@ alias jn='jupyter notebook'
 # Usefull command to pair with longer running programs
 # alert will show when to program is finished when used
 # like this: $ ./long-program && alert
-alias alert='i3-nagbar -t warning -m "Program finished"'
+alias alert='notify-send "Program finished"'
 
 # Some shortcuts to often used directories
 DOCS_DIR=$HOME/Documents
