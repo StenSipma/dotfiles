@@ -52,11 +52,11 @@ TA_DIR=$DOCS_DIR/TeachingAssistant
 PROJECTS_DIR=$DOCS_DIR/Projects
 
 alias study='cd $STUDY_DIR'
+alias proj='cd $PROJECTS_DIR'
 alias pac='cd $DOCS_DIR/Projects/PracticalAstronomyCrew'
 alias ta='cd $TA_DIR'
 alias cw='cd $PROJECTS_DIR/CosmicWeb'
 
-alias oa='cd $STUDY_DIR/Observational_Astronomy'
 alias anc='cd $PROJECTS_DIR/PracticalAstronomyCrew/astrometry_net_client'
 
 # vim: ft=bash:
