@@ -4,17 +4,13 @@
 #	File containing aliases for the shell. Should be executable by both
 #       Bash and Zsh
 
-alias nvim='nvim -u $XDG_CONFIG_HOME/nvim/init.vim'
+# Not needed if the $VIMINIT variable is not set
+#alias nvim='nvim -u $XDG_CONFIG_HOME/nvim/init.vim'
 
 ## Enables colors for some commands
 # for ls: -N	Prints the name without quotes
 alias ls='ls -N --color=auto --group-directories-first'
 alias grep='grep --color=auto'
-# NOTE: Option --color=always may cause some issues when
-# it is used in further processing.
-# if so, use switch `always` to `auto`. This allowes color
-# only to be displayed when the output is stdout.
-
 
 ## See `make-change-dir` for explanation
 alias mkcd=". make-change-dir"
@@ -51,12 +47,14 @@ STUDY_DIR=$DOCS_DIR/Study
 TA_DIR=$DOCS_DIR/TeachingAssistant
 PROJECTS_DIR=$DOCS_DIR/Projects
 
+# University
 alias study='cd $STUDY_DIR'
-alias proj='cd $PROJECTS_DIR'
-alias pac='cd $DOCS_DIR/Projects/PracticalAstronomyCrew'
 alias ta='cd $TA_DIR'
-alias cw='cd $PROJECTS_DIR/CosmicWeb'
 
+# Projects
+alias proj='cd $PROJECTS_DIR'
+alias pac='cd $PROJECTS_DIR/PracticalAstronomyCrew'
+alias cw='cd $PROJECTS_DIR/CosmicWeb'
 alias anc='cd $PROJECTS_DIR/PracticalAstronomyCrew/astrometry_net_client'
 
 # vim: ft=bash:

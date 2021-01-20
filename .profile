@@ -18,7 +18,7 @@ PATH=~/bin:$PATH
 export BROWSER="firefox"
 export TERMINAL="st"
 export MAIL_READER="thunderbird"
-export EDITOR="vim"
+export EDITOR="nvim"
 export PAGER="less"
 export IMAGE_VIEWER="sxiv"
 export PRINTER="DCPJ515W"
@@ -27,7 +27,7 @@ export PRINTER="DCPJ515W"
 #############################
 #- Clean Up Home Directory -#
 #############################
-export VIMINIT=":source $XDG_CONFIG_HOME"/vim/vimrc
+#export VIMINIT=":source $XDG_CONFIG_HOME"/vim/vimrc
 
 export SQLITE_HISTORY=$XDG_CACHE_HOME/sqlite_history
 export MYSQL_HISTFILE="$XDG_CACHE_HOME"/mysql_history 
@@ -76,7 +76,7 @@ fi
 
 ## Start the X session:
 # (! $DISPLAY)      : If there is no current display (?)
-# ($XDG_VTNR -eq 1) : If the VT number equals 1 (e.g. Ctrl+Alt+1 I think)
+# ($XDG_VTNR -eq 1) : If the VT number equals 1 (e.g. Ctrl+Alt+F1)
 if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
 	# For Optimus-Manager
  	#sudo /usr/bin/prime-switch
