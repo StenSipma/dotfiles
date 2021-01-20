@@ -19,6 +19,9 @@ let mapleader=" "
 "
 " TODO: add an install script at the beginnin of this file which installs 
 "       vim-plug automatically
+
+let local_plug = '/home/sten/Documents/Projects/NeoVim'
+
 call plug#begin(stdpath("config") . "/vplugged")
 
         " Auto Completion Linting Formatting:
@@ -61,6 +64,10 @@ call plug#begin(stdpath("config") . "/vplugged")
         Plug 'jeetsukumaran/vim-pythonsense'
         " Formatter
         Plug 'psf/black', { 'branch': 'stable' }
+
+        " Local Plugins:
+        Plug (local_plug . '/fits.nvim')
+        Plug (local_plug . '/lua-playground')
 
 call plug#end()
 " plug#end already sets: 

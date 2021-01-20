@@ -1,7 +1,7 @@
 local all_attach = require'completion'.on_attach
 local util = require('lspconfig/util')
 
-pyls_conf = {
+local pyls_conf = {
         -- Not sure if this actually does anything...
         settings = {
                 configurationSources = "flake8";
@@ -16,7 +16,7 @@ pyls_conf = {
 }
 
 
-pyright_conf = {
+local pyright_conf = {
         --root_dir = root_fallback;
         root_dir = util.root_pattern(".git", "setup.py",  "setup.cfg", "pyproject.toml", "requirements.txt", "*.py");
         settings = {
@@ -34,7 +34,33 @@ pyright_conf = {
         on_attach = all_attach;
 };
 
-treesitter_conf = {
+local lua_conf = {
+        cmd = {'/usr/bin/lua-language-server'};
+        settings = {
+                Lua = {
+                        runtime = {
+                                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                                version = 'LuaJIT',
+                                -- Setup your lua path
+                                path = vim.split(package.path, ';'),
+                        },
+                        diagnostics = {
+                                -- Get the language server to recognize the `vim` global
+                                globals = {'vim'},
+                        },
+                        workspace = {
+                                -- Make the server aware of Neovim runtime files
+                                library = {
+                                        [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+                                        [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+                                },
+                        },
+                },
+        },
+        on_attach = all_attach;
+}
+
+local treesitter_conf = {
          -- one of "all", "maintained" (parsers with maintainers), or a list of languages
          -- TODO (2021-01-17): Convert into a list of languages
         ensure_installed = "maintained";
@@ -47,10 +73,10 @@ treesitter_conf = {
         };
 };
 
-telescope_conf = {
+local telescope_conf = {
         defaults = {
                 prompt_prefix = " 🔭";
-                file_ignore_patterns = { 
+                file_ignore_patterns = {
                         ".env";
                         "*.egg-info";
                         "vplugged";
@@ -64,4 +90,5 @@ return {
         treesitter_conf = treesitter_conf;
         pyright_conf = pyright_conf;
         telescope_conf = telescope_conf;
+        lua_conf = lua_conf;
 }
