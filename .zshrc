@@ -6,28 +6,9 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-
-## Load general functionality (shared with bash), and other zsh files
-# Store these files in: $HOME/.config/dotfiles 
-# (or in a different place if you have a different XDF_CONFIG_HOME default)
-CFG_DIR=${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles
-
-# Make the directory if it does not exist
-mkdir -p $CFG_DIR
-
-# Needed for the globbing pattern used
-setopt extendedglob
-
-# Source everything in this directory, except for files ending with '.bash'
-for file in $(ls $CFG_DIR/*~*.bash); do
-        # Uncomment to echo which files are sourced
-        #echo "Sourcing $file"
-        . $file
-done
-
-#############
-## OPTIONS ##
-#############
+############################
+## Zsh Features / Options ##
+############################
 
 # History
 HISTFILE=~/.histfile
@@ -64,10 +45,28 @@ zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %
 zstyle ':completion::complete:*' use-cache 1
 zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
 
-# Activate advanced globbing patterns. This is set above already, but included
-# here for reference
-#setopt extendedglob
+# Needed for the globbing pattern used
+setopt extendedglob
 
+#############
+## General ##
+#############
+
+## Load general functionality (shared with bash), and other zsh files
+# Store these files in: $HOME/.config/dotfiles 
+# (or in a different place if you have a different XDF_CONFIG_HOME default)
+CFG_DIR=${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles
+
+# Make the directory if it does not exist
+mkdir -p $CFG_DIR
+
+
+# Source everything in this directory, except for files ending with '.bash'
+for file in $(ls $CFG_DIR/*~*.bash); do
+        # Uncomment to echo which files are sourced
+        #echo "Sourcing $file"
+        . $file
+done
 
 ############
 ## Prompt ##
@@ -98,20 +97,6 @@ export PS1='%n at %m in %1~ ${git_prompt}
 # Sets the prompt for when a command is specified on more
 # than one line (e.g. by using \ or not closing a quote etc.)
 export PS2=' | '
-
-###############################
-## Application Specific Code ##
-###############################
-
-## Tomcat directory
-export CATALINA_HOME=/usr/share/tomcat8
-
-## Python Virtual Environment Directory
-# This is used by `virtualenvwrapper`
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Devel
-source ~/.local/bin/virtualenvwrapper.sh
-
 
 # Syntax highlighting in the shell
 # from the package: zsh-syntax-highlighting
