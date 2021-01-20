@@ -67,7 +67,7 @@ call plug#begin(stdpath("config") . "/vplugged")
 
         " Local Plugins:
         Plug (local_plug . '/fits.nvim')
-        Plug (local_plug . '/lua-playground')
+        " Plug (local_plug . '/lua-playground')
 
 call plug#end()
 " plug#end already sets: 
