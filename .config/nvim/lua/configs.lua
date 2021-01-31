@@ -75,6 +75,7 @@ local treesitter_conf = {
 
 local telescope_conf = {
         defaults = {
+                borderchars = {"─", "│", "─", "│", "┌", "┐", "┘", "└"},
                 prompt_prefix = " 🔭";
                 file_ignore_patterns = {
                         ".env";
