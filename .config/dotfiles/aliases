@@ -12,6 +12,9 @@
 alias ls='ls -N --color=auto --group-directories-first'
 alias grep='grep --color=auto'
 
+# FD
+alias fd='fd --no-ignore-vcs'
+
 ## See `make-change-dir` for explanation
 alias mkcd=". make-change-dir"
 
