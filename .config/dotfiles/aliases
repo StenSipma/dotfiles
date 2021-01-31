@@ -1,7 +1,7 @@
 # File:   aliases
 # Author: Sten Sipma (sten.sipma@ziggo.nl)
 # Description:
-#	File containing aliases for the shell. Should be executable by both
+#	File containing aliases for the shell. Can be executed by both
 #       Bash and Zsh
 
 # Not needed if the $VIMINIT variable is not set
@@ -12,8 +12,22 @@
 alias ls='ls -N --color=auto --group-directories-first'
 alias grep='grep --color=auto'
 
-# FD
+## Replacements for the good old commands
+#--------------------------#
+# | find --> fd          | #
+# | ls   --> exa         | #
+# | tree --> exa --tree  | #
+# | ps   --> procs       | #
+#--------------------------#
+# Find replacement
 alias fd='fd --no-ignore-vcs'
+# Ls replacement
+alias el='exa --long --group-directories-first' # Exa Long
+alias ela='el --all'                            # Exa Long All
+alias ell='el --group --git --header'           # Exa Long + extra options
+alias ela='ell --all'
+# Tree replacement
+alias etree='exa --tree'
 
 ## See `make-change-dir` for explanation
 alias mkcd=". make-change-dir"
