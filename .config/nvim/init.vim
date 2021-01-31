@@ -69,6 +69,8 @@ call plug#begin(stdpath("config") . "/vplugged")
         Plug (local_plug . '/fits.nvim')
         Plug (local_plug . '/lua-playground')
 
+        " Remote Versions:
+        " Plug 'StenSipma/fits.nvim'
 call plug#end()
 " plug#end already sets: 
 "       filetype plugin indent on
