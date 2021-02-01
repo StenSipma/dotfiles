@@ -129,6 +129,9 @@ myStartupHook = do  -- Start the wallpaper manager using the previous config
                     spawnOnce "nm-applet &"
                     -- Start the tray applet for Pulseaudio control
                     spawnOnce "pasystray &"
+                    -- Start Rocket.Chat app. Note; you have to 'enable' the tray icon
+                    -- By clicking: View --> Tray Icon
+                    spawnOnce "rocketchat-desktop &"
 
 -- Main xmobar run sequence
 main = do
