@@ -64,6 +64,8 @@ call plug#begin(stdpath("config") . "/vplugged")
         Plug 'jeetsukumaran/vim-pythonsense'
         " Formatter
         Plug 'psf/black', { 'branch': 'stable' }
+        "
+        Plug 'chrisbra/csv.vim'
 
         " Local Plugins:
         Plug (local_plug . '/fits.nvim')
