@@ -82,3 +82,6 @@ if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
  	#sudo /usr/bin/prime-switch
 	exec startx
 fi
+
+# Created by `userpath` on 2021-02-03 12:28:46
+export PATH="$PATH:/home/sten/.local/bin"

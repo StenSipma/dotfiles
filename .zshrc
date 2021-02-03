@@ -101,3 +101,6 @@ export PS2=' | '
 # Syntax highlighting in the shell
 # from the package: zsh-syntax-highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Created by `userpath` on 2021-02-03 12:28:46
+export PATH="$PATH:/home/sten/.local/bin"
