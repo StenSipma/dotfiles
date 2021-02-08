@@ -69,6 +69,7 @@ PROJECTS_DIR=$DOCS_DIR/Projects
 # University
 alias study='cd $STUDY_DIR'
 alias ta='cd $TA_DIR'
+alias pn='cd $TA_DIR/Prognum21'
 
 # Projects
 alias proj='cd $PROJECTS_DIR'
