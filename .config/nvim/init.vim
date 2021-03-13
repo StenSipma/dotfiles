@@ -101,6 +101,9 @@ colorscheme gruvbox-material
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:maximizer_set_default_mapping = 0
 
+" A specific virtual environment is created for neovim:
+let g:python3_host_prog = $XDG_CONFIG_HOME . "/pyvirtualenvs/neovim/bin/python"
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " KEY BINDINGS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
