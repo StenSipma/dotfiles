@@ -12,6 +12,10 @@ def to_np_paramlist(argstring, snip):
         snip.rv += '\n'
 endglobal
 
+snippet rt "Reveal Type Shortcut"
+reveal_type($1)
+endsnippet
+	
 
 snippet nfdoc "Generate a Numpy style docstring for a function" b
 """
