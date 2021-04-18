@@ -37,7 +37,8 @@ myNormalBorderColor     = "#666666"
 myFocusedBorderColor    = "#DEDEDE"
 
 -- Variables
-myTerminal           = "st"
+--myTerminal           = "st"
+myTerminal           = "kitty"
 myModMask            = mod4Mask
 myBorderWidth        = 2
 
