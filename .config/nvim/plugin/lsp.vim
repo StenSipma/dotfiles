@@ -39,4 +39,7 @@ nnoremap <leader>rn :lua vim.lsp.buf.rename()<CR>
 "lua require'lspconfig'.pyls.setup( require'configs'.pyls_conf )
 " Python (pyright)
 lua require'lspconfig'.pyright.setup( require'configs'.pyright_conf )
+" Lua (Sumneko_lua)
 lua require'lspconfig'.sumneko_lua.setup( require'configs'.lua_conf )
+" LaTeX (Texlab)
+lua require'lspconfig'.texlab.setup( require'configs'.texlab_conf )

@@ -60,6 +60,10 @@ local lua_conf = {
         on_attach = all_attach;
 }
 
+local texlab_conf = {
+        on_attach_ = all_attach;
+}
+
 local treesitter_conf = {
          -- one of "all", "maintained" (parsers with maintainers), or a list of languages
          -- TODO (2021-01-17): Convert into a list of languages
@@ -92,4 +96,5 @@ return {
         pyright_conf = pyright_conf;
         telescope_conf = telescope_conf;
         lua_conf = lua_conf;
+        texlab_conf = texlab_conf;
 }

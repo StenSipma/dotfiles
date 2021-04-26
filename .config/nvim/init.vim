@@ -66,6 +66,8 @@ call plug#begin(stdpath("config") . "/vplugged")
         Plug 'psf/black', { 'branch': 'stable' }
         "
         Plug 'chrisbra/csv.vim'
+        " LaTeX
+        Plug 'lervag/vimtex'
 
         " Local Plugins:
         Plug (local_plug . '/fits.nvim')
