@@ -14,9 +14,21 @@ augroup MY_AUTOCOMMANDS
         " Enable completion for all filetypes
         autocmd BufEnter * lua require'completion'.on_attach()
 
-        " Run black in python files
-        autocmd BufWrite *.py :Black
-
         " Highlight the text yanked after yanking
         autocmd TextYankPost * silent! lua return (not vim.v.event.visual) and require'vim.highlight'.on_yank()
+augroup END
+
+augroup RUN_BLACK
+        autocmd!
+        " Run black in python files
+        autocmd BufWrite *.py :Black
+augroup END
+
+
+" Exceptions:
+augroup LEARNIT
+        autocmd!
+        
+        " Disable Black formatting in learnit sub directories
+        autocmd! BufNewFile,BufRead */Learnit/**/*.py autocmd! RUN_BLACK
 augroup END
