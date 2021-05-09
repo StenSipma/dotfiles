@@ -61,7 +61,11 @@ local lua_conf = {
 }
 
 local texlab_conf = {
-        on_attach_ = all_attach;
+        on_attach = all_attach;
+}
+
+local rust_analyzer_conf = {
+        on_attach = all_attach;
 }
 
 local treesitter_conf = {
@@ -97,4 +101,5 @@ return {
         telescope_conf = telescope_conf;
         lua_conf = lua_conf;
         texlab_conf = texlab_conf;
+        rust_analyzer_conf = rust_analyzer_conf;
 }
